@@ -146,7 +146,7 @@ export default function ELIApp() {
     },
   ]
 
-  // UPDATED ASSESSMENT QUESTIONS WITH REAL ELI COACHING
+  // UPDATED ASSESSMENT QUESTIONS WITH REAL ELI COACHING + TIPS
   const assessmentQuestions = [
     {
       question: "What makes you feel most alive and in your power?",
@@ -154,12 +154,27 @@ export default function ELIApp() {
       getCoaching: (response: string) => {
         const responseText = response.toLowerCase()
         if (responseText.includes("money") || responseText.includes("wealth") || responseText.includes("rich")) {
-          return `✨ **Thank you for sharing: "${response}"** - I can feel the authenticity in your words. Here's the plot twist: when you're truly on purpose, money becomes your PARTNER, not your goal. Your soul's calling is the magnet that draws abundance to you. **DO THIS:** Write down 3 ways your purpose could generate income. Your soul's work is meant to be profitable!`
+          return {
+            analysis: `✨ **"${response}"** - I love that you're honest about money lighting you up! Most people are too scared to admit it. Here's the plot twist: when you're truly on purpose, money becomes your PARTNER, not your goal.`,
+            tip: "**TIP:** Write down 3 ways your purpose could generate income this week. Your soul's work is meant to be profitable!",
+          }
         }
         if (responseText.includes("help") || responseText.includes("serve") || responseText.includes("heal")) {
-          return `💕 **"${response}" - Your soul is wired for SERVICE!** That's your abundance frequency! But here's what most healers get wrong: you can't pour from an empty cup. Your service is MORE powerful when you're financially free. **PRACTICE:** The Wealthy Healer Meditation - visualize yourself serving from overflow, not depletion.`
+          return {
+            analysis: `💕 **"${response}"** - Your soul is wired for SERVICE! That's your abundance frequency! But here's what most healers get wrong: you can't pour from an empty cup.`,
+            tip: "**TIP:** Do the Wealthy Healer Meditation daily: Visualize yourself serving from overflow, not depletion. See money flowing TO you so you can serve MORE people.",
+          }
         }
-        return `🔥 **"${response}" - Beautiful!** Your soul is speaking through what lights you up. This is your North Star - the more you align with this energy, the more magnetic you become to everything you desire. Notice how your body feels when you think about this... that's your inner GPS guiding you home to yourself.`
+        if (responseText.includes("create") || responseText.includes("art") || responseText.includes("music")) {
+          return {
+            analysis: `🎨 **"${response}"** - Your creative soul is your abundance portal! Creativity IS divinity expressing itself through you. Stop separating art from money - they're meant to dance together.`,
+            tip: "**TIP:** Set a daily creative practice: 20 minutes of pure creation without worrying about money. Then ask 'How can I monetize my joy?' Trust the first answer.",
+          }
+        }
+        return {
+          analysis: `🔥 **"${response}"** - Beautiful! Your soul is speaking through what lights you up. This is your North Star - the more you align with this energy, the more magnetic you become to everything you desire.`,
+          tip: "**TIP:** Set a phone reminder to check in with this feeling 3x daily. Ask yourself 'Am I aligned with what makes me feel alive right now?' Then course-correct.",
+        }
       },
     },
     {
@@ -173,32 +188,72 @@ export default function ELIApp() {
           responseText.includes("lose") ||
           responseText.includes("waste")
         ) {
-          return `💔 **"${response}" - Holy shit, that's RAW honesty!** Most people would never admit that. Your fear of self-destruction around money is actually your soul protecting you from old patterns. **TRUTH BOMB:** You don't trust yourself with abundance because you've learned money = chaos. **HEALING PRACTICE:** Do the Money Safety Meditation: Hold cash while saying 'I am safe with money. Money is safe with me. We heal together.'`
+          return {
+            analysis: `💔 **"${response}"** - Holy shit, that's RAW honesty! Most people would never admit that. Your fear of self-destruction around money is actually your soul protecting you from old patterns.`,
+            tip: "**TIP:** Do the Money Safety Practice: Hold $20 in your hand for 2 minutes daily while saying 'I am safe with money. Money is safe with me. We heal together.'",
+          }
         }
         if (responseText.includes("fear") || responseText.includes("scared") || responseText.includes("panic")) {
-          return `🫂 **"${response}" - That fear is your nervous system protecting you from old wounds.** But gorgeous, you're not that scared little one anymore. **HEALING PRACTICE:** Do the 90-Second Fear Flush from the book: Breathe in for 4, hold for 4, out for 6. While breathing, say 'I am safe to receive abundance.' This literally rewires your amygdala.`
+          return {
+            analysis: `🫂 **"${response}"** - That fear is your nervous system protecting you from old wounds. But gorgeous, you're not that scared little one anymore.`,
+            tip: "**TIP:** Do the 90-Second Fear Flush: Breathe in for 4, hold for 4, out for 6. While breathing, say 'I am safe to receive abundance.' Do this every time money fear comes up.",
+          }
         }
         if (responseText.includes("excited") || responseText.includes("joy") || responseText.includes("happy")) {
-          return `🎉 **"${response}" - THAT'S your wealth frequency!** That excitement is your soul recognizing its birthright. You're not just 'ready' for money - you're WIRED for it. **AMPLIFY THIS:** Do the Abundance Activation: Spend 5 minutes daily feeling into having unlimited money. Let that joy expand through your whole body.`
+          return {
+            analysis: `🎉 **"${response}"** - THAT'S your wealth frequency! That excitement is your soul recognizing its birthright. You're not just 'ready' for money - you're WIRED for it.`,
+            tip: "**TIP:** Do the Abundance Activation: Spend 5 minutes daily feeling into having unlimited money. Let that joy expand through your whole body. This is your manifestation practice.",
+          }
         }
-        return `✨ **Thank you for sharing: "${response}"** - Your first emotional response to money is your wealth thermostat. Whatever came up is perfect information about your current frequency. **REMEMBER:** You can change your money story at any moment. You're not stuck with old programming.`
+        if (
+          responseText.includes("overwhelm") ||
+          responseText.includes("stress") ||
+          responseText.includes("pressure")
+        ) {
+          return {
+            analysis: `😰 **"${response}"** - That overwhelm is your system saying 'I don't know how to handle this much energy.' Your nervous system needs to learn that abundance is safe.`,
+            tip: "**TIP:** Practice the Receiving Breath: Inhale abundance, exhale overwhelm. Start with small amounts - visualize receiving $100 comfortably before jumping to millions.",
+          }
+        }
+        return {
+          analysis: `✨ **"${response}"** - Your first emotional response to money is your wealth thermostat. Whatever came up is perfect information about your current frequency.`,
+          tip: "**TIP:** Create an Abundance Anchor: Touch your heart and say 'I choose [your emotion]' every time you think about money. You're literally rewiring your money frequency.",
+        }
       },
     },
     {
-      question: "How do you connect with something greater than yourself?",
+      question: "How do you experience your connection to something greater than yourself?",
       category: "Divine Connection",
       getCoaching: (response: string) => {
         const responseText = response.toLowerCase()
         if (responseText.includes("devil") || responseText.includes("dark") || responseText.includes("evil")) {
-          return `😈 **"${response}" - THE DEVIL?! I'm CACKLING!** You know what, gorgeous? That's the most honest answer I've heard all day. Plot twist: even the 'devil' is part of the Divine! Your willingness to go to the shadow shows spiritual MATURITY. **SHADOW WORK:** Ask yourself: 'What would my dark side teach me about money?' Sometimes our 'demons' hold our greatest gifts.`
+          return {
+            analysis: `😈 **"${response}"** - THE DEVIL?! I'm CACKLING! You know what, gorgeous? That's the most honest answer I've heard all day. Plot twist: even the 'devil' is part of the Divine!`,
+            tip: "**TIP:** Do Shadow Integration Work: Ask your 'dark side' what it wants to teach you about money. Sometimes our 'demons' hold our greatest gifts. Journal the conversation.",
+          }
         }
         if (responseText.includes("nothing") || responseText.includes("don't") || responseText.includes("can't")) {
-          return `💔 **"${response}" - Oh honey, I feel that disconnection in my bones.** That 'nothing' you're feeling? It's not emptiness - it's your soul crying out for something REAL. **TRUTH:** You ARE the Divine expressing itself in human form. The connection you're seeking is the connection to your own soul. **START HERE:** Put your hand on your heart and say 'I am Divine. I am enough. I am home.'`
+          return {
+            analysis: `💔 **"${response}"** - Oh honey, I feel that disconnection in my bones. That 'nothing' you're feeling? It's not emptiness - it's your soul crying out for something REAL.`,
+            tip: "**TIP:** Start with Self-Recognition: Put your hand on your heart daily and say 'I am Divine. I am enough. I am home.' You ARE the connection you're seeking.",
+          }
         }
         if (responseText.includes("nature") || responseText.includes("trees") || responseText.includes("ocean")) {
-          return `🌿 **"${response}" - YES! Nature is where the magic happens!** You're one of those souls who remembers that the Divine isn't in some distant heaven - it's in every leaf, every wave, every breath. Your connection to nature IS your connection to abundance. The same force that grows trees wants to grow your wealth.`
+          return {
+            analysis: `🌿 **"${response}"** - YES! Nature is where the magic happens! You're one of those souls who remembers that the Divine isn't in some distant heaven - it's in every leaf, every wave.`,
+            tip: "**TIP:** Do the Nature Abundance Practice: Sit with a tree for 10 minutes and ask 'How do you receive everything you need?' Let nature teach you about effortless abundance.",
+          }
         }
-        return `🙏 **"${response}" - This is your spiritual superpower!** However you connect - whether through nature, meditation, or dancing in your kitchen - this is how you tap into infinite intelligence. The stronger this connection, the more you trust the universe has your back with money and everything else.`
+        if (responseText.includes("meditation") || responseText.includes("prayer") || responseText.includes("church")) {
+          return {
+            analysis: `🙏 **"${response}"** - Beautiful! You've found your sacred practice. Whether it's meditation, prayer, or sitting in church - you know how to tune into something bigger.`,
+            tip: "**TIP:** Add Money Prayers to your practice: 'Divine, show me how to receive abundance in alignment with my highest good.' Then listen for the guidance.",
+          }
+        }
+        return {
+          analysis: `🌟 **"${response}"** - This is your spiritual superpower! However you connect, this is how you tap into infinite intelligence. The stronger this connection, the more you trust the universe has your back.`,
+          tip: "**TIP:** Before any money decision, connect to your Divine source first. Ask 'What would Love do?' and trust the first answer that comes through.",
+        }
       },
     },
     {
@@ -206,13 +261,34 @@ export default function ELIApp() {
       category: "Inner Wisdom",
       getCoaching: (response: string) => {
         const responseText = response.toLowerCase()
+        if (responseText.includes("toxic") || responseText.includes("investor") || responseText.includes("crushed")) {
+          return {
+            analysis: `💔 **"${response}"** - Holy shit, that's devastating. Losing your company to a toxic investor is one of the worst betrayals in business. Your gut knew something was off, but you overrode it because you needed the money.`,
+            tip: "**TIP:** Before any future investor meeting, do the Red Flag Body Scan: Sit quietly for 2 minutes and notice any tension, nausea, or unease. Your body knows before your mind does.",
+          }
+        }
         if (responseText.includes("wrong") || responseText.includes("mistake") || responseText.includes("bad")) {
-          return `💫 **"${response}" - Your intuition has been trying to save you from settling for crumbs when you deserve the whole feast!** Every time you override your inner knowing, you're telling the universe 'I don't trust my own guidance.' **REBUILD TRUST:** Start with tiny decisions - which coffee to order, which route to take. Your intuition is your wealth compass.`
+          return {
+            analysis: `💫 **"${response}"** - Your intuition has been trying to save you from settling for crumbs when you deserve the whole feast! Every time you override your inner knowing, you're telling the universe 'I don't trust my own guidance.'`,
+            tip: "**TIP:** Rebuild Intuition Trust: Start with tiny decisions - which coffee to order, which route to take. Notice the physical sensations of 'yes' vs 'no' in your body.",
+          }
         }
         if (responseText.includes("nothing") || responseText.includes("never") || responseText.includes("don't")) {
-          return `🤷‍♀️ **"${response}" - 'I don't know' is actually the most honest answer!** Most people pretend they have it all figured out. Your honesty is refreshing. **TRUTH:** You DO have intuition - you just might call it something else. That 'gut feeling' or 'random thought'? That's your inner wisdom speaking.`
+          return {
+            analysis: `🤷‍♀️ **"${response}"** - 'I don't know' is actually the most honest answer! Most people pretend they have it all figured out. Your honesty is refreshing.`,
+            tip: "**TIP:** Start the Intuition Journal: Write down every 'random' thought or gut feeling for one week. You'll be amazed at how much inner wisdom you actually have.",
+          }
         }
-        return `👑 **"${response}" - YES! This is proof that your inner wisdom is real and powerful.** Your intuition is your built-in success system - it knows things your logical mind hasn't figured out yet. The more you trust and follow these hits, the more magical your life becomes.`
+        if (responseText.includes("saved") || responseText.includes("helped") || responseText.includes("right")) {
+          return {
+            analysis: `👑 **"${response}"** - YES! This is proof that your inner wisdom is real and powerful. Your intuition is your built-in success system - it knows things your logical mind hasn't figured out yet.`,
+            tip: "**TIP:** Create an Intuition Success List: Write down every time your gut was right. Read it before making big decisions to remind yourself that your inner wisdom is trustworthy.",
+          }
+        }
+        return {
+          analysis: `✨ **"${response}"** - Your relationship with inner guidance reveals so much about your consciousness level. The more you trust these hits, the more magical your life becomes.`,
+          tip: "**TIP:** Practice the Money Intuition Check: Before any purchase, pause and ask 'Does this feel expansive or contractive?' Trust the first sensation you get.",
+        }
       },
     },
     {
@@ -225,40 +301,85 @@ export default function ELIApp() {
           responseText.includes("don't deserve") ||
           responseText.includes("unworthy")
         ) {
-          return `💕 **"${response}" - That 'not good enough' story? It's not even YOURS.** You inherited it like an old coat that never fit right. **WORTHINESS TRUTH:** You were born worthy. You didn't earn it, you can't lose it, and you don't need to prove it. **PRACTICE:** Look in the mirror daily and say 'I am worthy of abundance simply because I exist.'`
+          return {
+            analysis: `💕 **"${response}"** - That 'not good enough' story? It's not even YOURS. You inherited it like an old coat that never fit right. You were born worthy. You didn't earn it, you can't lose it.`,
+            tip: "**TIP:** Do the Worthiness Reclamation: Look in the mirror daily and say 'I am worthy of abundance simply because I exist.' Say it until you feel it in your bones.",
+          }
         }
         if (responseText.includes("selfish") || responseText.includes("greedy") || responseText.includes("bad")) {
-          return `🔥 **"${response}" - Ah, the 'money is evil' programming!** Let me blow your mind: Money is just energy. It's not good or bad - it's neutral. What matters is the consciousness behind it. **REFRAME:** Instead of 'wanting money is selfish,' try 'having money allows me to serve at a higher level.'`
+          return {
+            analysis: `🔥 **"${response}"** - Ah, the 'money is evil' programming! Let me blow your mind: Money is just energy. It's not good or bad - it's neutral. What matters is the consciousness behind it.`,
+            tip: "**TIP:** Reframe Practice: Every time you think 'wanting money is selfish,' immediately say 'Having money allows me to serve at a higher level.' Rewire that neural pathway.",
+          }
         }
-        return `✨ **Thank you for sharing: "${response}"** - Thank you for being so honest! This story has been running the show, but here's the plot twist - it's just a story, not the truth. Every limiting belief is just an old program that can be rewritten. You're already worthy of everything you desire, period.`
+        if (responseText.includes("too late") || responseText.includes("too old") || responseText.includes("missed")) {
+          return {
+            analysis: `⏰ **"${response}"** - 'Too late' is the ego's favorite lie! Colonel Sanders was 62 when he started KFC. Your soul doesn't have an expiration date, gorgeous.`,
+            tip: "**TIP:** Write down 5 people who succeeded after 40/50/60. Keep this list handy for when the 'too late' story tries to run the show. Your time is NOW.",
+          }
+        }
+        return {
+          analysis: `✨ **"${response}"** - Thank you for being so honest! This story has been running the show, but here's the plot twist - it's just a story, not the truth. Every limiting belief is just old programming.`,
+          tip: "**TIP:** Do the Story Rewrite: Take your limiting belief and flip it. 'I can't have money' becomes 'Money flows to me easily.' Write the new story 10 times daily.",
+        }
       },
     },
     {
-      question: "How do you show love to yourself when no one is watching?",
+      question: "How do you express love to yourself when no one is watching?",
       category: "Self-Love",
       getCoaching: (response: string) => {
         const responseText = response.toLowerCase()
         if (responseText.includes("nothing") || responseText.includes("don't") || responseText.includes("can't")) {
-          return `💔 **"${response}" - Oh gorgeous, that breaks my heart and fires me up at the same time.** You've been so busy taking care of everyone else that you forgot YOU matter too. **SELF-LOVE EMERGENCY:** Right now, put your hand on your heart and say 'I matter. I am worthy of love. I choose to care for myself.' This is where your money healing begins.`
+          return {
+            analysis: `💔 **"${response}"** - Oh gorgeous, that breaks my heart and fires me up at the same time. You've been so busy taking care of everyone else that you forgot YOU matter too.`,
+            tip: "**TIP:** Start the Self-Love Emergency Protocol: Do ONE loving thing for yourself daily - a bath, a compliment, buying yourself flowers. Build the muscle of receiving your own love.",
+          }
         }
         if (responseText.includes("bath") || responseText.includes("treat") || responseText.includes("buy")) {
-          return `💖 **"${response}" - YES! You understand that self-love is an ACTION, not just a feeling!** This is where the real magic happens! Self-love isn't selfish - it's the foundation of everything. The way you treat yourself sets the standard for how life treats you. Keep expanding these moments of self-love... you deserve to be cherished, especially by you.`
+          return {
+            analysis: `💖 **"${response}"** - YES! You understand that self-love is an ACTION, not just a feeling! This is where the real magic happens! The way you treat yourself sets the standard for how life treats you.`,
+            tip: "**TIP:** Upgrade Your Self-Love: Ask yourself 'How can I love myself more luxuriously today?' and follow through. You're training the universe how to treat you.",
+          }
         }
-        return `🌟 **"${response}" - This is where the real magic happens!** Self-love isn't selfish - it's the foundation of everything. The way you treat yourself sets the standard for how life treats you. Keep expanding these moments of self-love... you deserve to be cherished, especially by you.`
+        if (responseText.includes("talk") || responseText.includes("kind") || responseText.includes("gentle")) {
+          return {
+            analysis: `🗣️ **"${response}"** - The way you speak to yourself is EVERYTHING! Your inner dialogue is literally programming your reality. You're already doing advanced consciousness work.`,
+            tip: "**TIP:** Create a Self-Love Mantra: Choose 3 loving phrases to say to yourself daily. 'I am enough. I am worthy. I am loved.' Say them like you mean it.",
+          }
+        }
+        return {
+          analysis: `🌟 **"${response}"** - This is where the real magic happens! Self-love isn't selfish - it's the foundation of everything. Keep expanding these moments of self-love... you deserve to be cherished, especially by you.`,
+          tip: "**TIP:** Create a Self-Love Menu: List 20 ways to love yourself (big and small). When you're feeling low, pick one and do it immediately. Self-love is a practice, not a feeling.",
+        }
       },
     },
     {
-      question: "If you couldn't fail, what would you create in this world?",
+      question: "If you knew you couldn't fail, what would you create in the world?",
       category: "Quantum Vision",
       getCoaching: (response: string) => {
         const responseText = response.toLowerCase()
         if (responseText.includes("nothing") || responseText.includes("don't know") || responseText.includes("can't")) {
-          return `🌟 **"${response}" - That 'I don't know' is actually your soul protecting you from dreaming too small!** Your vision is so big it scares your human mind. **PERMISSION SLIP:** You're allowed to want everything your heart desires. You're allowed to dream bigger than your current reality. **VISION ACTIVATION:** If you knew you couldn't fail, what would you create?`
+          return {
+            analysis: `🌟 **"${response}"** - That 'I don't know' is actually your soul protecting you from dreaming too small! Your vision is so big it scares your human mind.`,
+            tip: "**TIP:** Do the Permission Slip Practice: Write 'I give myself permission to want everything my heart desires' 10 times. Then ask again - what wants to be born through you?",
+          }
         }
         if (responseText.includes("money") || responseText.includes("wealth") || responseText.includes("rich")) {
-          return `💰 **"${response}" - I love that you're honest about wanting wealth!** Most people are too scared to admit it. Here's the thing: your desire for money isn't shallow - it's your soul calling for FREEDOM. Money is just the vehicle for your bigger vision. **EXPAND THIS:** What would you do with unlimited wealth? That's your real vision.`
+          return {
+            analysis: `💰 **"${response}"** - I love that you're honest about wanting wealth! Most people are too scared to admit it. Here's the thing: your desire for money isn't shallow - it's your soul calling for FREEDOM.`,
+            tip: "**TIP:** Expand the Vision: Ask yourself 'What would I do with unlimited wealth?' That's your real vision. Money is just the vehicle for your bigger purpose.",
+          }
         }
-        return `🚀 **"${response}" - Holy wow! This vision isn't random - it's your soul's assignment.** The fact that you can see it means you're meant to create it. Start taking tiny steps toward this vision, because the universe is conspiring to help you make it real.`
+        if (responseText.includes("help") || responseText.includes("heal") || responseText.includes("change")) {
+          return {
+            analysis: `🌍 **"${response}"** - Your soul is wired for IMPACT! This vision isn't random - it's your soul's assignment. The fact that you can see it means you're meant to create it.`,
+            tip: "**TIP:** Take One Tiny Step: What's the smallest action you could take toward this vision TODAY? Do that. The universe responds to movement, not just dreams.",
+          }
+        }
+        return {
+          analysis: `🚀 **"${response}"** - Holy wow! This vision isn't random - it's your soul's assignment. The fact that you can see it means you're meant to create it. Start taking tiny steps toward this vision.`,
+          tip: "**TIP:** Do Vision Embodiment: Spend 10 minutes daily living AS IF your vision is already real. Feel it in your body. This is advanced manifestation work.",
+        }
       },
     },
   ]
@@ -414,7 +535,7 @@ export default function ELIApp() {
                 variant="outline"
                 className="border-green-500/50 text-green-300 hover:bg-green-800/30"
               >
-                <RotateCcw className="w-4 h-4 mr-2" />
+                <RotateCcw className="w-4 w-4 mr-2" />
                 Reset Assessment
               </Button>
             </div>
@@ -517,10 +638,23 @@ export default function ELIApp() {
                           <Sparkles className="w-5 h-5" />
                           Coaching Insight
                         </h3>
-                        <div className="text-white leading-relaxed whitespace-pre-line">
-                          {assessmentQuestions[currentQuestionIndex].getCoaching(
-                            assessmentAnswers[currentQuestionIndex],
-                          )}
+                        <div className="space-y-4">
+                          <div className="text-white leading-relaxed whitespace-pre-line">
+                            {
+                              assessmentQuestions[currentQuestionIndex].getCoaching(
+                                assessmentAnswers[currentQuestionIndex],
+                              ).analysis
+                            }
+                          </div>
+                          <div className="p-4 bg-yellow-800/20 rounded-lg border border-yellow-500/30">
+                            <div className="text-yellow-200 font-medium leading-relaxed">
+                              {
+                                assessmentQuestions[currentQuestionIndex].getCoaching(
+                                  assessmentAnswers[currentQuestionIndex],
+                                ).tip
+                              }
+                            </div>
+                          </div>
                         </div>
                       </div>
 
@@ -567,7 +701,7 @@ export default function ELIApp() {
                       Daily Essentials
                     </Button>
                     <Button onClick={resetAssessment} variant="outline" className="border-green-500/50 text-green-300">
-                      <RotateCcw className="w-4 h-4 mr-2" />
+                      <RotateCcw className="w-4 w-4 mr-2" />
                       Retake
                     </Button>
                   </div>
