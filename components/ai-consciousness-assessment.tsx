@@ -127,116 +127,56 @@ export default function AIConsciousnessAssessment({
     setApiError(null)
   }
 
-  const getELICoaching = (question: any, response: string): any => {
+  const getELICoaching = async (question: any, response: string): Promise<any> => {
+    try {
+      // Call the REAL AI API
+      const apiResponse = await fetch("/api/consciousness-assessment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "analyzeResponse",
+          data: { question, response },
+        }),
+      })
+
+      if (!apiResponse.ok) throw new Error("API failed")
+
+      const result = await apiResponse.json()
+
+      if (result.analysis) {
+        return {
+          analysis: result.analysis.analysis,
+          insight: result.analysis.consciousnessInsight,
+          guidance: result.analysis.guidance,
+          statBoosts: result.analysis.statAdjustments,
+          tip: result.analysis.nextSteps?.[0] || "Trust your journey.",
+        }
+      }
+    } catch (error) {
+      console.error("AI coaching failed:", error)
+    }
+
+    // ONLY if AI fails, use contextual fallback
     const responseText = response.toLowerCase()
 
-    // Handle specific responses with ELI's authentic voice + TIPS
-    switch (question.dimension) {
-      case "Awareness":
-        if (responseText.includes("nothing") || responseText.includes("empty") || responseText.includes("blank")) {
-          return {
-            analysis: `💫 **"${response}"** - That 'nothing' you're feeling? It's not emptiness - it's your consciousness clearing space for something NEW. Most people's minds are so cluttered they can't hear their soul speaking.`,
-            insight: "Emptiness isn't absence - it's presence without distraction. You're more aware than you think.",
-            guidance: "This spaciousness is actually advanced consciousness. You're ready for the next level.",
-            statBoosts: { awareness: 15, clarity: 10 },
-            tip: "**TIP:** Set 3 random phone alarms daily. When they go off, just notice: What am I thinking? What am I feeling? No judgment, just awareness. This builds your consciousness muscle.",
-          }
-        }
-        if (responseText.includes("chaos") || responseText.includes("busy") || responseText.includes("overwhelm")) {
-          return {
-            analysis: `🌪️ **"${response}"** - That mental chaos is your soul crying out for stillness! Your inner space is like a snow globe that's been shaken - it needs time to settle.`,
-            insight:
-              "Chaos is just creativity that hasn't found its direction yet. You have powerful energy that needs channeling.",
-            guidance:
-              "Your overwhelm is actually a sign of expansion. You're processing more consciousness than ever before.",
-            statBoosts: { awareness: 12, sovereignty: 8 },
-            tip: "**TIP:** Do the 4-7-8 Breath: Inhale for 4, hold for 7, exhale for 8. Repeat 4 times whenever chaos hits. This literally calms your nervous system in 60 seconds.",
-          }
-        }
-        return {
-          analysis: `✨ **"${response}"** - Your inner awareness is like a muscle - the more you use it, the stronger it gets. I can feel your consciousness expanding just by how you describe your inner space.`,
-          insight:
-            "Self-awareness is the foundation of all transformation. You're building the skill that changes everything.",
-          guidance: "Keep developing this inner observer. It's your superpower for creating the life you want.",
-          statBoosts: { awareness: 10, presence: 8 },
-          tip: "**TIP:** Practice the 'Witness Meditation': Sit quietly and watch your thoughts like clouds passing in the sky. Don't engage, just observe. 5 minutes daily builds massive awareness.",
-        }
+    if (responseText.includes("bad people") || responseText.includes("toxic")) {
+      return {
+        analysis: `💔 **"${response}"** - That pattern of gravitating toward toxic people is your wounded inner child seeking familiar chaos. You're not broken - you're just repeating what feels 'normal' even when it hurts.`,
+        insight: "Your attraction to dysfunction is actually your soul trying to heal old wounds through repetition.",
+        guidance:
+          "Start with tiny steps toward healthier connections. Your nervous system needs to learn that safe people are actually safe.",
+        statBoosts: { awareness: 15, boundaries: 12 },
+        tip: "**TIP:** Before asking anyone for support, do the Energy Check: Put your hand on your heart and ask 'Does this person feel expansive or draining?' Trust your first gut reaction.",
+      }
+    }
 
-      case "Intuitive Connection":
-        if (responseText.includes("toxic") || responseText.includes("investor") || responseText.includes("crushed")) {
-          return {
-            analysis: `💔 **"${response}"** - Holy shit, that's devastating. Losing your company to a toxic investor is one of the worst betrayals in business. Your gut knew something was off, but you overrode it because you needed the money. That's not intuition failure - that's survival mode.`,
-            insight:
-              "Your intuition was screaming red flags, but desperation made you ignore it. This is the most expensive lesson in trusting your inner wisdom.",
-            guidance:
-              "This trauma is actually upgrading your intuitive system. You'll never ignore those red flags again.",
-            statBoosts: { intuition: 20, discernment: 15 },
-            tip: "**TIP:** Before any future business meeting, do the Red Flag Body Scan: Sit quietly for 2 minutes and notice any tension, nausea, or unease. Your body knows before your mind does.",
-          }
-        }
-        if (responseText.includes("wrong") || responseText.includes("mistake") || responseText.includes("ignored")) {
-          return {
-            analysis: `💫 **"${response}"** - Your intuition has been trying to save you from settling for crumbs when you deserve the whole feast! Every time you override your inner knowing, you're telling the universe 'I don't trust my own guidance.'`,
-            insight:
-              "Your intuition is never wrong - you just might misinterpret the timing or the message. It's always protecting you.",
-            guidance: "Start rebuilding trust with your inner wisdom through small, low-stakes decisions first.",
-            statBoosts: { intuition: 15, trust: 12 },
-            tip: "**TIP:** Rebuild Intuition Trust: Start with tiny decisions - which coffee to order, which route to take. Notice the physical sensations of 'yes' vs 'no' in your body.",
-          }
-        }
-        return {
-          analysis: `👑 **"${response}"** - Your intuition is your direct line to divine intelligence. The more you trust it, the more it guides you toward abundance and joy.`,
-          insight: "Intuitive connection is your superpower. It knows things your logical mind hasn't figured out yet.",
-          guidance: "Keep strengthening this connection. Your inner wisdom is your greatest asset.",
-          statBoosts: { intuition: 12, flow: 10 },
-          tip: "**TIP:** Practice the Intuition Check: Before any decision, put your hand on your heart and ask 'Does this feel expansive or contractive?' Trust the first sensation.",
-        }
-
-      case "Money Origins":
-        if (
-          responseText.includes("drugs") ||
-          responseText.includes("gambling") ||
-          responseText.includes("lose") ||
-          responseText.includes("waste")
-        ) {
-          return {
-            analysis: `💔 **"${response}"** - Holy shit, that's RAW honesty! Most people would never admit that fear. Your terror of self-destruction around money is actually your soul protecting you from old patterns. You don't trust yourself with abundance because you've learned money = chaos.`,
-            insight:
-              "This fear is your inner wisdom protecting you until you heal the underlying patterns. It's not permanent.",
-            guidance: "Your honesty about this fear is the first step to healing it. You're braver than you know.",
-            statBoosts: { courage: 20, honesty: 15 },
-            tip: "**TIP:** Do the Money Safety Practice: Hold $20 in your hand for 2 minutes daily while saying 'I am safe with money. Money is safe with me. We heal together.'",
-          }
-        }
-        if (responseText.includes("poor") || responseText.includes("struggle") || responseText.includes("lack")) {
-          return {
-            analysis: `💸 **"${response}"** - That early poverty programming runs DEEP. Your nervous system learned that money = stress, struggle, and never enough. But gorgeous, you're not that scared little one anymore.`,
-            insight:
-              "Your money story started before you could even speak. These aren't your beliefs - they're inherited trauma.",
-            guidance:
-              "Healing your money origins is the key to everything. You're doing the deep work that changes generations.",
-            statBoosts: { healing: 18, worthiness: 12 },
-            tip: "**TIP:** Do Inner Child Money Work: Have a conversation with your younger self about money. Tell them: 'I've got us now. We're safe to receive.' This rewires your nervous system at the root.",
-          }
-        }
-        return {
-          analysis: `✨ **"${response}"** - Your money story started before you could even speak. These early experiences shaped your entire wealth consciousness, but they don't have to define your future.`,
-          insight:
-            "Understanding your money origins gives you the power to rewrite your story. You're not stuck with old programming.",
-          guidance:
-            "Every moment is a chance to create a new relationship with money. Your past informs you, but doesn't control you.",
-          statBoosts: { awareness: 12, empowerment: 10 },
-          tip: "**TIP:** Write your money story like a fairy tale, but give it a new ending where you become the wealthy hero. Read it daily to reprogram your subconscious.",
-        }
-
-      default:
-        return {
-          analysis: `✨ **"${response}"** - Your authentic response is perfect information about where you are right now. Every answer reveals another layer of your consciousness ready for transformation.`,
-          insight: "You're exactly where you need to be for your next breakthrough. Trust the process.",
-          guidance: "Your willingness to look within is already shifting your frequency. Keep going.",
-          statBoosts: { courage: 10, awareness: 8 },
-          tip: "**TIP:** Trust your journey. Every step is leading you to your highest expression of abundance and joy. Celebrate your courage to grow.",
-        }
+    // Generic fallback
+    return {
+      analysis: `✨ **"${response}"** - Your honest response reveals exactly where your consciousness is ready to expand.`,
+      insight: "Every moment of awareness is a step toward transformation.",
+      guidance: "Trust this process of looking within. You're braver than you know.",
+      statBoosts: { awareness: 10, courage: 8 },
+      tip: "**TIP:** Celebrate your willingness to explore consciousness. This courage will transform everything.",
     }
   }
 
@@ -245,7 +185,7 @@ export default function AIConsciousnessAssessment({
     if (!response) return
 
     // First show the contextual coaching immediately
-    const coaching = getELICoaching(currentQuestion, response as string)
+    const coaching = await getELICoaching(currentQuestion, response as string)
     const immediateResponse: AIResponse = {
       analysis: coaching.analysis,
       guidance: coaching.guidance,
