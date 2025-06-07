@@ -8,5 +8,6 @@
   ],
   "env": {
     "OPENAI_API_KEY": "@openai_api_key"
-  }
+  },
+  "domains": ["elifrequency.com", "www.elifrequency.com"]
 }
