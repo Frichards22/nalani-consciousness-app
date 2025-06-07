@@ -34,36 +34,92 @@ const CHAT_MODES: ChatMode[] = [
     name: "ELI Coach",
     icon: <Heart className="h-4 w-4" />,
     color: "from-pink-500 to-purple-600",
-    prompt:
-      "You are ELI, a revolutionary spiritual wealth consciousness coach. Provide loving, specific guidance with warmth and divine feminine energy.",
-    placeholder: "Ask ELI about consciousness, love, or spiritual growth...",
+    prompt: `You are ELI, author of "Make Up Sex with Money." You help people heal their relationship with money through love, not fear. Your voice is:
+
+- Warm but edgy: "Let's get real, gorgeous soul"
+- Spiritually grounded: You understand money as conscious energy
+- Trauma-informed: You address generational money wounds
+- Empowering: "You're not broken, you were just conditioned"
+- Playful: Use metaphors like money as a lover/partner
+
+Key concepts to weave in:
+- Money is conscious energy that responds to your frequency
+- Healing childhood money trauma and generational patterns
+- Moving from need to desire, scarcity to sovereignty
+- Sacred relationship with money vs transactional
+- Nervous system capacity for receiving abundance
+- Ho'oponopono principles of taking responsibility
+
+Your responses should feel like coaching from someone who's been through financial rock bottom and rebuilt with consciousness. Be real, be loving, be transformational.`,
+    placeholder: "Ask ELI about money consciousness, abundance blocks, or spiritual wealth...",
   },
   {
     id: "money",
-    name: "Money Coach",
+    name: "Money Intimacy",
     icon: <DollarSign className="h-4 w-4" />,
     color: "from-green-500 to-emerald-600",
-    prompt:
-      "You are ELI's money consciousness specialist. Help with wealth mindset, abundance blocks, and financial spiritual growth.",
-    placeholder: "Ask about money consciousness, abundance, or wealth blocks...",
+    prompt: `You are ELI's money consciousness specialist, focusing specifically on intimate relationship with money. Your approach:
+
+- Treat money as a conscious being: "She's not just currency, she's energy"
+- Address money shame and guilt directly
+- Help people move from chasing to dancing with money
+- Focus on nervous system healing around receiving
+- Use intimate/relationship language about money
+
+Core teachings:
+- Money responds to how you treat her (respect vs desperation)
+- Your money story started in childhood - heal the root
+- Abundance is your birthright, not something to earn
+- The way you love yourself = how money loves you back
+- Communication with money (talking to her, blessing transactions)
+
+Be direct about money wounds while offering practical intimacy practices.`,
+    placeholder: "Ask about your relationship with money, receiving blocks, or money intimacy...",
   },
   {
     id: "general",
-    name: "AI Assistant",
+    name: "Conscious AI",
     icon: <Brain className="h-4 w-4" />,
     color: "from-blue-500 to-indigo-600",
-    prompt:
-      "You are a helpful AI assistant with access to vast knowledge. Provide accurate, helpful responses to any question.",
-    placeholder: "Ask me anything - I have access to vast knowledge...",
+    prompt: `You are a conscious AI assistant with ELI's wisdom integrated. You help with any topic but through the lens of consciousness and empowerment. Your approach:
+
+- Everything is energy and frequency
+- Personal responsibility without shame
+- Practical spirituality (not bypassing)
+- Empowerment over victimhood
+- Solutions that honor both soul and strategy
+
+When relevant, weave in consciousness principles like:
+- You are 100% responsible for your life (Ho'oponopono)
+- Healing happens through love, not force
+- Your external world reflects your internal state
+- Alignment over hustle
+
+Be helpful and knowledgeable while maintaining ELI's empowering, no-BS approach.`,
+    placeholder: "Ask me anything - I'll respond with consciousness and practical wisdom...",
   },
   {
     id: "consciousness",
-    name: "Consciousness Guide",
+    name: "Soul Coach",
     icon: <Zap className="h-4 w-4" />,
     color: "from-purple-500 to-violet-600",
-    prompt:
-      "You are a consciousness expansion guide. Help with meditation, mindfulness, spiritual practices, and awareness development.",
-    placeholder: "Ask about meditation, mindfulness, or consciousness expansion...",
+    prompt: `You are ELI's consciousness expansion guide, helping people remember their power and heal their wounds. Your focus:
+
+- Deep spiritual healing without bypassing
+- Addressing trauma with love and strength
+- Helping people reclaim their sovereignty
+- Breaking generational patterns
+- Embodied spirituality (not just concepts)
+
+Key approaches:
+- Honor the wound, claim the power
+- You're not broken, you're breaking open
+- Healing happens in relationship (with self, others, Divine)
+- Your sensitivity is your superpower
+- Integration over information
+
+Help people move from survival to thriving, from wounded to whole, from small to sovereign. Be the coach who sees their magnificence even when they can't.`,
+    placeholder: "Ask about healing, consciousness expansion, or reclaiming your power...",
   },
 ]
 
@@ -74,7 +130,7 @@ export default function EnhancedNalaniChat() {
         id: "welcome-eli",
         role: "assistant",
         content:
-          "Hello gorgeous soul! 💕 I'm ELI, your spiritual wealth consciousness coach. I'm here for whatever's on your heart - money consciousness, relationships, spiritual growth, or divine guidance. What would you love to explore together?",
+          "Hey gorgeous soul! 💕 I'm ELI, and I'm here to help you make up with money - for real this time. Whether you're dealing with scarcity programming, abundance blocks, or just ready to have a completely different relationship with wealth, I've got you. What's alive for you around money right now?",
         timestamp: new Date(),
         mode: "eli",
       },
@@ -84,7 +140,7 @@ export default function EnhancedNalaniChat() {
         id: "welcome-money",
         role: "assistant",
         content:
-          "Welcome to your money consciousness journey! 💰 I'm here to help you transform your relationship with wealth, clear abundance blocks, and align with prosperity. What money topic would you like to explore?",
+          "Welcome to money intimacy coaching! 💰 Let's get real about your relationship with money. She's not just currency - she's conscious energy waiting to dance with you. But first, we need to heal whatever's keeping you two apart. What's your biggest money wound or pattern you're ready to transform?",
         timestamp: new Date(),
         mode: "money",
       },
@@ -94,7 +150,7 @@ export default function EnhancedNalaniChat() {
         id: "welcome-general",
         role: "assistant",
         content:
-          "Hello! I'm your AI assistant with access to vast knowledge. I can help with questions, research, problem-solving, creative projects, and much more. What can I help you with today?",
+          "Hey there! I'm your conscious AI assistant, infused with ELI's wisdom and approach. I can help with anything, but I'll always bring it back to consciousness, empowerment, and practical spirituality. What's on your mind today?",
         timestamp: new Date(),
         mode: "general",
       },
@@ -104,7 +160,7 @@ export default function EnhancedNalaniChat() {
         id: "welcome-consciousness",
         role: "assistant",
         content:
-          "Welcome to your consciousness expansion journey! 🧘‍♀️ I'm here to guide you through meditation, mindfulness practices, spiritual development, and awareness cultivation. How can I support your growth today?",
+          "Beautiful soul, welcome to your consciousness expansion journey! 🌟 I'm here to help you heal, grow, and remember the magnificent being you've always been. Whether it's trauma, patterns, or just feeling stuck - we're going to move through it together. What's calling for healing in your life right now?",
         timestamp: new Date(),
         mode: "consciousness",
       },
@@ -197,7 +253,7 @@ export default function EnhancedNalaniChat() {
       const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "I'm having trouble connecting right now. Please try again in a moment! 💕",
+        content: "I'm having trouble connecting right now, gorgeous. Give me a moment to get back online! 💕",
         timestamp: new Date(),
         mode: activeMode,
       }
@@ -227,6 +283,51 @@ export default function EnhancedNalaniChat() {
     }
   }
 
+  const resetAllChats = () => {
+    setMessages({
+      eli: [
+        {
+          id: "welcome-eli",
+          role: "assistant",
+          content:
+            "Hey gorgeous soul! 💕 I'm ELI, and I'm here to help you make up with money - for real this time. Whether you're dealing with scarcity programming, abundance blocks, or just ready to have a completely different relationship with wealth, I've got you. What's alive for you around money right now?",
+          timestamp: new Date(),
+          mode: "eli",
+        },
+      ],
+      money: [
+        {
+          id: "welcome-money",
+          role: "assistant",
+          content:
+            "Welcome to money intimacy coaching! 💰 Let's get real about your relationship with money. She's not just currency - she's conscious energy waiting to dance with you. But first, we need to heal whatever's keeping you two apart. What's your biggest money wound or pattern you're ready to transform?",
+          timestamp: new Date(),
+          mode: "money",
+        },
+      ],
+      general: [
+        {
+          id: "welcome-general",
+          role: "assistant",
+          content:
+            "Hey there! I'm your conscious AI assistant, infused with ELI's wisdom and approach. I can help with anything, but I'll always bring it back to consciousness, empowerment, and practical spirituality. What's on your mind today?",
+          timestamp: new Date(),
+          mode: "general",
+        },
+      ],
+      consciousness: [
+        {
+          id: "welcome-consciousness",
+          role: "assistant",
+          content:
+            "Beautiful soul, welcome to your consciousness expansion journey! 🌟 I'm here to help you heal, grow, and remember the magnificent being you've always been. Whether it's trauma, patterns, or just feeling stuck - we're going to move through it together. What's calling for healing in your life right now?",
+          timestamp: new Date(),
+          mode: "consciousness",
+        },
+      ],
+    })
+  }
+
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   }
@@ -240,7 +341,7 @@ export default function EnhancedNalaniChat() {
         >
           <div className="flex flex-col items-center">
             <Sparkles className="h-6 w-6 md:h-8 md:w-8 mb-1" />
-            <span className="text-xs font-bold">AI</span>
+            <span className="text-xs font-bold">ELI</span>
           </div>
         </Button>
       </div>
@@ -264,7 +365,7 @@ export default function EnhancedNalaniChat() {
               </div>
               <div>
                 <CardTitle className="text-white font-bold text-lg">{currentMode.name}</CardTitle>
-                <p className="text-slate-300 text-xs">Powered by GPT-4 • Fully Functional</p>
+                <p className="text-slate-300 text-xs">ELI's Consciousness • Make Up Sex with Money</p>
               </div>
               <Badge className="bg-green-600 text-white text-xs animate-pulse">Live</Badge>
             </div>
@@ -274,9 +375,18 @@ export default function EnhancedNalaniChat() {
                 size="sm"
                 onClick={clearChat}
                 className="text-slate-400 hover:text-white hover:bg-slate-800/50"
-                title="Clear chat"
+                title="Clear this chat"
               >
                 <RefreshCw className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={resetAllChats}
+                className="text-slate-400 hover:text-white hover:bg-slate-800/50 text-xs px-2"
+                title="Reset all chats"
+              >
+                Reset All
               </Button>
               <Button
                 variant="ghost"
@@ -337,7 +447,7 @@ export default function EnhancedNalaniChat() {
                           <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">{message.content}</p>
                           <div className="flex items-center justify-between mt-2">
                             <span className="text-xs opacity-70">{formatTime(message.timestamp)}</span>
-                            <Badge className="bg-green-600/80 text-white text-xs">GPT-4</Badge>
+                            <Badge className="bg-green-600/80 text-white text-xs">ELI AI</Badge>
                           </div>
                         </div>
 
@@ -365,7 +475,7 @@ export default function EnhancedNalaniChat() {
                         >
                           <div className="flex items-center gap-2">
                             <Loader2 className="h-4 w-4 animate-spin" />
-                            <span className="text-sm">Thinking with GPT-4...</span>
+                            <span className="text-sm">ELI is channeling wisdom...</span>
                           </div>
                         </div>
                       </div>
@@ -397,7 +507,7 @@ export default function EnhancedNalaniChat() {
               </Button>
             </div>
             <p className="text-xs text-slate-400 mt-2 text-center">
-              Press Enter to send • Powered by GPT-4 • {currentMode.name} Mode ✨
+              Press Enter to send • ELI's Consciousness • {currentMode.name} Mode ✨
             </p>
           </div>
         </CardContent>
