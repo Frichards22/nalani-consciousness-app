@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Loader2, Send, Bot, Star, Lock, CheckCircle } from "lucide-react"
+import { Loader2, Send, Bot, Star, Lock, CheckCircle, RotateCcw, Sparkles } from "lucide-react"
 
 export default function ELIApp() {
   // Chat state
@@ -21,6 +21,7 @@ export default function ELIApp() {
   const [activeTab, setActiveTab] = useState("assessment")
   const [assessmentCompleted, setAssessmentCompleted] = useState(false)
   const [completedEssentials, setCompletedEssentials] = useState<string[]>([])
+  const [showCelebration, setShowCelebration] = useState(false)
 
   // Load saved progress
   useEffect(() => {
@@ -39,55 +40,163 @@ export default function ELIApp() {
     spiritual: { name: "Spiritual Coach", icon: "✨", color: "from-blue-500 to-cyan-600" },
   }
 
-  // Simple daily essentials
+  // Daily essentials with exercises
   const dailyEssentials = [
-    { id: "intention", title: "Set Daily Intention", icon: "🌟" },
-    { id: "gratitude", title: "Gratitude Practice", icon: "🙏" },
-    { id: "affirmation", title: "Money Affirmation", icon: "💰" },
-    { id: "meditation", title: "5-Minute Meditation", icon: "🧘‍♀️" },
-    { id: "visualization", title: "Success Visualization", icon: "✨" },
-    { id: "boundaries", title: "Set a Boundary", icon: "🛡️" },
-    { id: "pleasure", title: "Pleasure Practice", icon: "💖" },
-    { id: "movement", title: "Sacred Movement", icon: "💃" },
-    { id: "nature", title: "Nature Connection", icon: "🌿" },
-    { id: "reflection", title: "Evening Reflection", icon: "🌙" },
+    {
+      id: "intention",
+      title: "Set Daily Intention",
+      icon: "🌟",
+      hasExercise: true,
+      exercises: [
+        "Write your intention 3 times while breathing deeply",
+        "Speak your intention out loud to the mirror",
+        "Create a vision board image for your intention",
+        "Dance while repeating your intention",
+      ],
+    },
+    {
+      id: "gratitude",
+      title: "Gratitude Practice",
+      icon: "🙏",
+      hasExercise: true,
+      exercises: [
+        "Write 5 things you're grateful for and why",
+        "Send a gratitude text to someone you love",
+        "Take a photo of something beautiful you're grateful for",
+        "Do a gratitude meditation for 3 minutes",
+      ],
+    },
+    {
+      id: "affirmation",
+      title: "Money Affirmation",
+      icon: "💰",
+      hasExercise: true,
+      exercises: [
+        "Say your affirmation 10 times while looking in the mirror",
+        "Write your affirmation in beautiful handwriting",
+        "Record yourself saying your affirmation powerfully",
+        "Create a money affirmation song and sing it",
+      ],
+    },
+    {
+      id: "meditation",
+      title: "5-Minute Meditation",
+      icon: "🧘‍♀️",
+      hasExercise: true,
+      exercises: [
+        "Breathe into your heart space for 5 minutes",
+        "Do a body scan meditation",
+        "Meditate on the feeling of abundance",
+        "Practice loving-kindness meditation",
+      ],
+    },
+    {
+      id: "visualization",
+      title: "Success Visualization",
+      icon: "✨",
+      hasExercise: true,
+      exercises: [
+        "Visualize your dream life for 10 minutes",
+        "Create a mental movie of your success",
+        "Visualize money flowing to you easily",
+        "See yourself celebrating your achievements",
+      ],
+    },
+    {
+      id: "boundaries",
+      title: "Set a Boundary",
+      icon: "🛡️",
+      hasExercise: false,
+    },
+    {
+      id: "pleasure",
+      title: "Pleasure Practice",
+      icon: "💖",
+      hasExercise: true,
+      exercises: [
+        "Take a luxurious 20-minute bath",
+        "Dance to your favorite song with abandon",
+        "Eat something delicious mindfully",
+        "Give yourself a self-massage",
+      ],
+    },
+    {
+      id: "movement",
+      title: "Sacred Movement",
+      icon: "💃",
+      hasExercise: true,
+      exercises: [
+        "Do 10 minutes of intuitive movement",
+        "Practice yoga with intention",
+        "Take a mindful walk in nature",
+        "Stretch while sending love to your body",
+      ],
+    },
+    {
+      id: "nature",
+      title: "Nature Connection",
+      icon: "🌿",
+      hasExercise: false,
+    },
+    {
+      id: "reflection",
+      title: "Evening Reflection",
+      icon: "🌙",
+      hasExercise: false,
+    },
   ]
 
-  // Assessment questions
+  // Assessment questions with coaching
   const assessmentQuestions = [
     {
       question: "What makes you feel most alive and in your power?",
       category: "Soul Purpose",
+      coaching:
+        "Beautiful! Your soul is speaking through what lights you up. This is your North Star - the more you align with this energy, the more magnetic you become to everything you desire. Notice how your body feels when you think about this... that's your inner GPS guiding you home to yourself.",
     },
     {
       question: "If you had unlimited money right now, what's the first emotion you'd feel?",
       category: "Money Relationship",
+      coaching:
+        "Aha! This emotion is pure gold - it's showing you exactly what your relationship with money looks like right now. Whether it's excitement, fear, or overwhelm, this is where your money work begins. Your emotions are the gateway to transforming your wealth consciousness.",
     },
     {
       question: "How do you connect with something greater than yourself?",
       category: "Divine Connection",
+      coaching:
+        "This is your spiritual superpower! However you connect - whether through nature, meditation, or dancing in your kitchen - this is how you tap into infinite intelligence. The stronger this connection, the more you trust the universe has your back with money and everything else.",
     },
     {
       question: "Describe a time when you trusted your intuition completely. What happened?",
       category: "Inner Wisdom",
+      coaching:
+        "YES! This is proof that your inner wisdom is real and powerful. Your intuition is your built-in success system - it knows things your logical mind hasn't figured out yet. The more you trust and follow these hits, the more magical your life becomes.",
     },
     {
       question: "What story do you tell yourself about why you can't have what you desire?",
       category: "Worthiness Blocks",
+      coaching:
+        "Thank you for being so honest! This story has been running the show, but here's the plot twist - it's just a story, not the truth. Every limiting belief is just an old program that can be rewritten. You're already worthy of everything you desire, period.",
     },
     {
       question: "How do you show love to yourself when no one is watching?",
       category: "Self-Love",
+      coaching:
+        "This is where the real magic happens! Self-love isn't selfish - it's the foundation of everything. The way you treat yourself sets the standard for how life treats you. Keep expanding these moments of self-love... you deserve to be cherished, especially by you.",
     },
     {
       question: "If you couldn't fail, what would you create in this world?",
       category: "Quantum Vision",
+      coaching:
+        "Holy wow! This vision isn't random - it's your soul's assignment. The fact that you can see it means you're meant to create it. Start taking tiny steps toward this vision, because the universe is conspiring to help you make it real.",
     },
   ]
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [assessmentAnswers, setAssessmentAnswers] = useState<string[]>([])
   const [currentAnswer, setCurrentAnswer] = useState("")
+  const [showCoaching, setShowCoaching] = useState(false)
+  const [selectedExercises, setSelectedExercises] = useState<Record<string, string>>({})
 
   // Handle Enter key
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -141,15 +250,37 @@ export default function ELIApp() {
     const newAnswers = [...assessmentAnswers, currentAnswer]
     setAssessmentAnswers(newAnswers)
     setCurrentAnswer("")
+    setShowCoaching(true)
+  }
+
+  // Handle next question or completion
+  const handleNextQuestion = () => {
+    setShowCoaching(false)
 
     if (currentQuestionIndex < assessmentQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
     } else {
-      // Assessment completed
-      setAssessmentCompleted(true)
-      localStorage.setItem("eli-assessment-completed", "true")
-      setActiveTab("chat")
+      // Assessment completed - show celebration
+      setShowCelebration(true)
+      setTimeout(() => {
+        setAssessmentCompleted(true)
+        localStorage.setItem("eli-assessment-completed", "true")
+        setShowCelebration(false)
+        setActiveTab("essentials")
+      }, 3000)
     }
+  }
+
+  // Reset assessment
+  const resetAssessment = () => {
+    setAssessmentCompleted(false)
+    setCurrentQuestionIndex(0)
+    setAssessmentAnswers([])
+    setCurrentAnswer("")
+    setShowCoaching(false)
+    setShowCelebration(false)
+    localStorage.removeItem("eli-assessment-completed")
+    setActiveTab("assessment")
   }
 
   // Toggle completion
@@ -201,9 +332,37 @@ export default function ELIApp() {
 
         {assessmentCompleted && (
           <div className="mb-6 p-4 bg-green-800/30 rounded-lg border border-green-500/30">
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-6 h-6 text-green-400" />
-              <span className="text-green-200 font-medium">Assessment Complete! All features unlocked.</span>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <CheckCircle className="w-6 h-6 text-green-400" />
+                <span className="text-green-200 font-medium">Assessment Complete! All features unlocked.</span>
+              </div>
+              <Button
+                onClick={resetAssessment}
+                size="sm"
+                variant="outline"
+                className="border-green-500/50 text-green-300 hover:bg-green-800/30"
+              >
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Reset Assessment
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Celebration Modal */}
+        {showCelebration && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-gradient-to-br from-pink-500 via-purple-600 to-yellow-500 p-8 rounded-2xl text-center max-w-md mx-4 animate-pulse shadow-2xl">
+              <div className="text-6xl mb-4">🎉</div>
+              <h2 className="text-3xl font-bold text-white mb-4">HELL YES!</h2>
+              <p className="text-xl text-white mb-4">You just leveled up your consciousness!</p>
+              <div className="flex justify-center gap-2 mb-4">
+                <Sparkles className="w-6 h-6 text-yellow-300 animate-bounce" />
+                <Sparkles className="w-6 h-6 text-pink-300 animate-bounce delay-100" />
+                <Sparkles className="w-6 h-6 text-purple-300 animate-bounce delay-200" />
+              </div>
+              <p className="text-lg text-white/90">Daily Essentials Unlocked!</p>
             </div>
           </div>
         )}
@@ -249,36 +408,63 @@ export default function ELIApp() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="p-6 bg-purple-800/30 rounded-lg border border-purple-500/30">
-                    <h3 className="text-xl font-medium text-purple-200 mb-2">
-                      {assessmentQuestions[currentQuestionIndex].category}
-                    </h3>
-                    <p className="text-lg text-white leading-relaxed">
-                      {assessmentQuestions[currentQuestionIndex].question}
-                    </p>
-                  </div>
+                  {!showCoaching ? (
+                    <>
+                      <div className="p-6 bg-purple-800/30 rounded-lg border border-purple-500/30">
+                        <h3 className="text-xl font-medium text-purple-200 mb-2">
+                          {assessmentQuestions[currentQuestionIndex].category}
+                        </h3>
+                        <p className="text-lg text-white leading-relaxed">
+                          {assessmentQuestions[currentQuestionIndex].question}
+                        </p>
+                      </div>
 
-                  <Textarea
-                    placeholder="Share your authentic truth here..."
-                    value={currentAnswer}
-                    onChange={(e) => setCurrentAnswer(e.target.value)}
-                    className="min-h-[120px] bg-black/20 border-purple-500/30 focus:border-purple-400 text-white"
-                  />
+                      <Textarea
+                        placeholder="Share your authentic truth here..."
+                        value={currentAnswer}
+                        onChange={(e) => setCurrentAnswer(e.target.value)}
+                        className="min-h-[120px] bg-black/20 border-purple-500/30 focus:border-purple-400 text-white"
+                      />
 
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-purple-300">
-                      Question {currentQuestionIndex + 1} of {assessmentQuestions.length}
-                    </span>
-                    <Button
-                      onClick={handleAssessmentSubmit}
-                      disabled={!currentAnswer.trim()}
-                      className="bg-gradient-to-r from-pink-500 to-purple-600"
-                    >
-                      {currentQuestionIndex === assessmentQuestions.length - 1
-                        ? "Complete Assessment"
-                        : "Next Question"}
-                    </Button>
-                  </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-purple-300">
+                          Question {currentQuestionIndex + 1} of {assessmentQuestions.length}
+                        </span>
+                        <Button
+                          onClick={handleAssessmentSubmit}
+                          disabled={!currentAnswer.trim()}
+                          className="bg-gradient-to-r from-pink-500 to-purple-600"
+                        >
+                          Submit Answer
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="p-6 bg-green-800/30 rounded-lg border border-green-500/30">
+                        <h3 className="text-xl font-medium text-green-200 mb-3 flex items-center gap-2">
+                          <Sparkles className="w-5 h-5" />
+                          Coaching Insight
+                        </h3>
+                        <p className="text-white leading-relaxed">
+                          {assessmentQuestions[currentQuestionIndex].coaching}
+                        </p>
+                      </div>
+
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-purple-300">
+                          {currentQuestionIndex === assessmentQuestions.length - 1
+                            ? "Ready to unlock your essentials?"
+                            : "Ready for the next question?"}
+                        </span>
+                        <Button onClick={handleNextQuestion} className="bg-gradient-to-r from-green-500 to-blue-600">
+                          {currentQuestionIndex === assessmentQuestions.length - 1
+                            ? "Complete Assessment!"
+                            : "Next Question"}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ) : (
@@ -291,21 +477,25 @@ export default function ELIApp() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-green-200 mb-4">
-                    Beautiful work! You've completed your consciousness assessment. Your Daily Essentials are now
-                    unlocked, and you can chat with Nalani AI for deeper insights.
+                    You're officially a consciousness badass! Your Daily Essentials are unlocked, and Nalani AI is ready
+                    to dive deeper with you.
                   </p>
                   <div className="flex gap-3">
                     <Button
                       onClick={() => setActiveTab("chat")}
                       className="bg-gradient-to-r from-pink-500 to-purple-600"
                     >
-                      Start Chatting
+                      Chat with Nalani
                     </Button>
                     <Button
                       onClick={() => setActiveTab("essentials")}
                       className="bg-gradient-to-r from-purple-500 to-indigo-600"
                     >
-                      View Daily Essentials
+                      Daily Essentials
+                    </Button>
+                    <Button onClick={resetAssessment} variant="outline" className="border-green-500/50 text-green-300">
+                      <RotateCcw className="w-4 h-4 mr-2" />
+                      Retake
                     </Button>
                   </div>
                 </CardContent>
@@ -345,7 +535,7 @@ export default function ELIApp() {
                   {chatHistory.length === 0 ? (
                     <div className="text-center text-purple-300 py-8">
                       <Bot className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p className="text-lg mb-4">Ready to transform your life? Ask me anything!</p>
+                      <p className="text-lg mb-4">Ready to level up your life? Let's dive in!</p>
                     </div>
                   ) : (
                     chatHistory.map((msg, i) => (
@@ -387,7 +577,7 @@ export default function ELIApp() {
                 {/* Input Form */}
                 <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                   <Textarea
-                    placeholder="Ask about consciousness, wealth, spirituality, or self-love... (Press Enter to send)"
+                    placeholder="What's on your mind? Let's get real about it..."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={handleKeyDown}
@@ -443,24 +633,53 @@ export default function ELIApp() {
                           : "bg-purple-900/30 border-purple-500/30"
                       }`}
                     >
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <h3 className="font-medium text-purple-200 flex items-center gap-2">
-                            <span>{essential.icon}</span> {essential.title}
-                          </h3>
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h3 className="font-medium text-purple-200 flex items-center gap-2">
+                              <span>{essential.icon}</span> {essential.title}
+                            </h3>
+                          </div>
+                          <Button
+                            size="sm"
+                            variant={completedEssentials.includes(essential.id) ? "default" : "outline"}
+                            className={
+                              completedEssentials.includes(essential.id)
+                                ? "bg-gradient-to-r from-purple-500 to-pink-600"
+                                : "border-purple-500/50 text-purple-300"
+                            }
+                            onClick={() => toggleEssential(essential.id)}
+                          >
+                            {completedEssentials.includes(essential.id) ? "✓ Done" : "Complete"}
+                          </Button>
                         </div>
-                        <Button
-                          size="sm"
-                          variant={completedEssentials.includes(essential.id) ? "default" : "outline"}
-                          className={
-                            completedEssentials.includes(essential.id)
-                              ? "bg-gradient-to-r from-purple-500 to-pink-600"
-                              : "border-purple-500/50 text-purple-300"
-                          }
-                          onClick={() => toggleEssential(essential.id)}
-                        >
-                          {completedEssentials.includes(essential.id) ? "✓ Done" : "Complete"}
-                        </Button>
+
+                        {/* Exercise Options */}
+                        {essential.hasExercise && essential.exercises && (
+                          <div className="space-y-2">
+                            <label className="text-sm text-purple-300">Choose your exercise:</label>
+                            <select
+                              value={selectedExercises[essential.id] || ""}
+                              onChange={(e) =>
+                                setSelectedExercises((prev) => ({ ...prev, [essential.id]: e.target.value }))
+                              }
+                              className="w-full p-2 rounded bg-black/20 border border-purple-500/30 text-white text-sm"
+                            >
+                              <option value="">Select an exercise...</option>
+                              {essential.exercises.map((exercise, index) => (
+                                <option key={index} value={exercise}>
+                                  {exercise}
+                                </option>
+                              ))}
+                            </select>
+
+                            {selectedExercises[essential.id] && (
+                              <div className="p-3 rounded bg-purple-800/30 border border-purple-500/30">
+                                <p className="text-sm text-purple-200">{selectedExercises[essential.id]}</p>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}

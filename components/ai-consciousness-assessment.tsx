@@ -114,7 +114,7 @@ export default function AIConsciousnessAssessment({
   const [responses, setResponses] = useState<Record<string, string | number>>({})
   const [aiResponses, setAiResponses] = useState<Record<string, AIResponse>>({})
   const [showAIResponse, setShowAIResponse] = useState(false)
-  const [isComplete, setIsComplete] = useState(false)
+  const [isComplete, setIsComplete] = useState(isComplete)
   const [totalStatGains, setTotalStatGains] = useState<Record<string, Record<string, number>>>({
     consciousness: {},
     wealthConsciousness: {},
@@ -128,6 +128,7 @@ export default function AIConsciousnessAssessment({
   const [isSummaryLoading, setIsSummaryLoading] = useState(false)
   const [apiError, setApiError] = useState<string | null>(null)
   const [usedFallback, setUsedFallback] = useState(false)
+  const [showCelebration, setShowCelebration] = useState(false)
 
   const currentQuestion = deepAssessmentQuestions[currentQuestionIndex]
   const progress = ((currentQuestionIndex + 1) / deepAssessmentQuestions.length) * 100
@@ -135,6 +136,77 @@ export default function AIConsciousnessAssessment({
   const handleResponse = (questionId: string, answer: string | number) => {
     setResponses((prev) => ({ ...prev, [questionId]: answer }))
     setApiError(null)
+  }
+
+  const getCoachingInsight = (question: any, response: string): string => {
+    const responseText = response.toLowerCase()
+
+    switch (question.dimension) {
+      case "Awareness":
+        if (responseText.includes("empty") || responseText.includes("scattered")) {
+          return "🌟 **Here's the real deal, gorgeous soul:** That inner space you're describing? It's not empty - it's FERTILE. Like rich soil waiting for seeds. Most people mistake the void for emptiness, but you're actually sensing the infinite field of possibility. This is where all creation begins. Your awareness is already more developed than you think - you're just learning to trust what you feel."
+        }
+        if (responseText.includes("peaceful") || responseText.includes("calm")) {
+          return "✨ **Plot twist, beautiful:** That peace you're feeling? That's your natural state trying to break through the noise. You're not 'finding' peace - you're REMEMBERING it. This tells me your nervous system is ready for the next level of abundance. When you can access this calm, you become a magnet for everything you desire. Keep cultivating this - it's your superpower."
+        }
+        return "💫 **Let's get real about awareness:** What you're experiencing in that inner space is a direct reflection of your relationship with receiving. If it feels chaotic, you might be blocking abundance. If it feels expansive, you're opening to your birthright. Your consciousness is the foundation of everything - including money flow. The more you honor this inner landscape, the more the outer world reflects your worth back to you."
+
+      case "Intuitive Connection":
+        if (responseText.includes("ignored") || responseText.includes("doubt")) {
+          return "🔥 **Here's what I know about you:** That intuition you've been doubting? She's been trying to save you from settling for crumbs when you deserve the whole damn feast. Every time you override your inner knowing, you're essentially telling the universe 'I don't trust my own guidance.' But gorgeous, your intuition is your direct line to divine intelligence. Start with small things - trust the feeling about which coffee to order, which route to take. Build that muscle back up."
+        }
+        if (responseText.includes("followed") || responseText.includes("trusted")) {
+          return "👑 **You beautiful, intuitive badass:** The fact that you followed your inner guidance tells me you're already operating from sovereignty, not survival. This is HUGE. Most people are so disconnected from their intuition they couldn't find it with a GPS. You're already ahead of the game. Now here's the next level: start asking your intuition about money. 'What wants to come through me?' 'How can I serve and prosper?' Your inner knowing is your wealth compass."
+        }
+        return "✨ **Truth bomb about intuition:** Your inner guidance system is like money - it responds to trust, not desperation. The more you honor those subtle nudges, the louder they become. And here's the cosmic joke: your intuition is always guiding you toward abundance, but fear makes us second-guess the very thing that would set us free. Start treating your intuition like your most trusted advisor - because that's exactly what it is."
+
+      case "Money Origins":
+        if (responseText.includes("scared") || responseText.includes("stress") || responseText.includes("fight")) {
+          return "💕 **Oh honey, I see you:** That little one inside you who watched money create chaos? They're still protecting you the only way they knew how - by making money feel unsafe. But here's what that beautiful inner child needs to know: YOU are not your parents. You get to have a completely different relationship with money. You get to heal what they couldn't. Send love to that scared part of you and say: 'I've got us now. We're safe to receive.'"
+        }
+        if (responseText.includes("lack") || responseText.includes("enough") || responseText.includes("poor")) {
+          return "🌟 **Let's rewrite this story, gorgeous:** That scarcity programming you absorbed? It's not even YOURS. You inherited it like an old coat that never fit right. But here's the plot twist - you get to be the one who breaks the generational pattern. Every time you choose abundance over lack, you're not just healing yourself - you're healing your entire lineage. You're the cycle breaker, the pattern interrupter, the one who says 'this ends with me.'"
+        }
+        return "🔥 **Here's what I want you to know:** Those early money memories aren't just random events - they're the foundation of your current money story. But gorgeous, you're not a victim of your past. You're the author of your future. Every wound around money is actually a portal to power. The deeper the wound, the greater your capacity for wealth. You've been initiated into money consciousness through experience. Now it's time to claim your mastery."
+
+      case "Abundance Capacity":
+        if (responseText.includes("panic") || responseText.includes("overwhelm") || responseText.includes("fear")) {
+          return "💫 **Breathe with me, beautiful:** That panic you feel? It's your nervous system saying 'this is too much, too fast.' And you know what? That's actually NORMAL. Most of us have been conditioned for scarcity, so abundance feels foreign. But here's the secret: you don't need to fix this overnight. Start with smaller amounts. Practice receiving compliments. Let someone buy you coffee. Train your system that it's safe to have good things. Your capacity will expand naturally."
+        }
+        if (responseText.includes("joy") || responseText.includes("grateful") || responseText.includes("excited")) {
+          return "🎉 **YES! This is it!** That joy you feel? That's your soul recognizing its birthright. You're not just 'ready' for abundance - you're WIRED for it. This response tells me your nervous system knows how to receive. Now we just need to expand that capacity. Start visualizing larger amounts regularly. Feel into the energy of having more. Your body is already saying yes - now let your mind catch up."
+        }
+        return "✨ **Here's the truth about receiving:** Your body's first response to abundance is your wealth thermostat. If you felt expansion, you're ready for more. If you felt contraction, you need some nervous system healing. Either way is perfect - you're just getting honest about where you are. The goal isn't to force yourself to feel ready. It's to gently expand your capacity to hold more goodness. You deserve to feel safe in abundance."
+
+      case "Sacred Communication":
+        if (responseText.includes("never") || responseText.includes("weird") || responseText.includes("crazy")) {
+          return "🌟 **Plot twist, gorgeous:** The fact that talking to money feels 'weird' just means you've been taught to see it as an object instead of energy. But everything is consciousness - your plants, your car, your phone. Money is no different. She's been waiting for you to acknowledge her as the living energy she is. Start small - say 'thank you' when you receive money. Bless your bills when you pay them. You're not crazy - you're awakening to the truth that everything is alive."
+        }
+        if (
+          responseText.includes("talk") ||
+          responseText.includes("conversation") ||
+          responseText.includes("relationship")
+        ) {
+          return "👑 **You beautiful, conscious being:** The fact that you already communicate with money tells me you understand something most people miss - that wealth is relational, not transactional. You're already ahead of 99% of people who see money as dead energy. Now deepen that relationship. Ask money what she needs from you. Listen for guidance. Treat her like the conscious partner she is. This is how you move from chasing money to dancing with her."
+        }
+        return "💕 **Here's what I know about you:** Whether you realize it or not, you're already in communication with money through your thoughts, feelings, and actions. Every time you stress about it, you're sending a message. Every time you appreciate it, you're having a conversation. The question is: what kind of relationship do you want? Start being intentional about your money conversations. Speak to her with love, respect, and gratitude."
+
+      case "Divine Partnership":
+        if (responseText.includes("don't") || responseText.includes("struggle") || responseText.includes("alone")) {
+          return "🌟 **Sweet soul, you're not alone:** Even if you can't feel it right now, you're held by something so much bigger than your current circumstances. The Divine isn't some distant force judging your bank account - it's the very breath in your lungs, the love in your heart, the dreams that won't leave you alone. Start small. Notice the synchronicities. Feel the support in unexpected places. Your connection to Source is your greatest wealth."
+        }
+        if (
+          responseText.includes("connected") ||
+          responseText.includes("guided") ||
+          responseText.includes("partnership")
+        ) {
+          return "✨ **You magnificent, connected being:** That partnership you feel with the Divine? That's your secret weapon for abundance. When you know you're co-creating with the universe, scarcity becomes impossible. You're not hustling alone - you're dancing with divine intelligence. Trust those nudges. Follow that guidance. Let the Divine be your business partner, your financial advisor, your abundance coach. This is how miracles become normal."
+        }
+        return "💫 **Here's the cosmic truth:** Your relationship with the Divine directly impacts your relationship with money. When you trust Source, you trust the flow. When you feel supported by the universe, you feel worthy of abundance. This isn't about religion - it's about remembering you're part of something infinite. The same force that grows flowers and moves planets wants to prosper you. Let it."
+
+      default:
+        return "🔥 **Here's what I see in you:** You're ready for a completely different relationship with money - one based on love, not fear. Trust, not control. Flow, not force. Your response tells me you're already questioning the old stories, and that's where all transformation begins. Keep going, gorgeous. You're closer to breakthrough than you think."
+    }
   }
 
   const getAIAnalysis = async () => {
@@ -270,6 +342,7 @@ export default function AIConsciousnessAssessment({
     await generateAssessmentSummary()
     setShowResults(true)
     onUpdateStats(totalStatGains)
+    setShowCelebration(true)
     if (onComplete) onComplete()
   }
 
@@ -356,6 +429,49 @@ export default function AIConsciousnessAssessment({
               className="bg-red-600 hover:bg-red-700 text-white font-bold flex items-center gap-2"
             >
               <RefreshCw className="h-4 w-4" /> Start Fresh Assessment
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  if (showCelebration) {
+    return (
+      <Card className="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 border-purple-500/30">
+        <CardContent className="p-8 flex items-center justify-center">
+          <div className="text-center space-y-6">
+            <div className="text-8xl animate-bounce">🎉</div>
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              HELL YES, GORGEOUS SOUL!
+            </h2>
+            <div className="text-2xl text-white font-bold space-y-2">
+              <p>You just completed your sacred money consciousness assessment!</p>
+              <p className="text-purple-300">Time to make up with money... for real this time.</p>
+            </div>
+
+            <div className="bg-gradient-to-r from-pink-900/30 to-purple-900/30 border border-pink-500/30 rounded-lg p-6">
+              <p className="text-xl text-white italic leading-relaxed">
+                "You're not broken. You were just conditioned. And now? Now you get to rewrite the whole damn story."
+              </p>
+              <p className="text-pink-400 mt-2 font-semibold">— ELI, Make Up Sex with Money</p>
+            </div>
+
+            <div className="space-y-3">
+              <p className="text-lg text-white">🔥 Your Daily Essentials are now UNLOCKED</p>
+              <p className="text-purple-200">
+                Sacred practices designed to heal your money wounds and activate your abundance frequency
+              </p>
+            </div>
+
+            <Button
+              onClick={() => {
+                setShowCelebration(false)
+                if (onComplete) onComplete()
+              }}
+              className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-xl px-8 py-4 font-bold"
+            >
+              🚀 Let's Make Up with Money!
             </Button>
           </div>
         </CardContent>
