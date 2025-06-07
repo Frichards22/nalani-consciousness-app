@@ -53,13 +53,40 @@ const soulQuestions = [
   },
 ]
 
-export default function SoulAssessment() {
+interface AIAnalysis {
+  analysis: string
+  insight: string
+  guidance: string
+  statAdjustments?: {
+    consciousness?: number
+    wealthConsciousness?: number
+    moneyIntimacy?: number
+  }
+}
+
+interface SoulAssessmentProps {
+  analyzeAssessmentResponse: (question: any, response: string, previousResponses?: any) => Promise<AIAnalysis>
+  createFallbackResponse: (question: any, response: string) => AIAnalysis
+  onUpdateStats?: (updates: any) => void
+}
+
+export default function SoulAssessment({
+  analyzeAssessmentResponse,
+  createFallbackResponse,
+  onUpdateStats,
+}: SoulAssessmentProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [responses, setResponses] = useState<Record<string, string>>({})
   const [showAIResponse, setShowAIResponse] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [showResults, setShowResults] = useState(false)
-  const [aiResponse, setAiResponse] = useState({
+  const [aiResponse, setAiResponse] = useState<AIAnalysis>({
+    analysis: "",
+    insight: "",
+    guidance: "",
+  })
+  const [aiAnalysis, setAiAnalysis] = useState<Record<string, AIAnalysis>>({})
+  const [currentAI, setCurrentAI] = useState<AIAnalysis>({
     analysis: "",
     insight: "",
     guidance: "",
@@ -74,59 +101,48 @@ export default function SoulAssessment() {
 
   const getAIAnalysis = async () => {
     const response = responses[currentQuestion.id]
-    if (!response || response.length < 10) return
+    if (!response || response.length < 3) return
 
     setIsLoading(true)
+
     try {
-      const result = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: `Question: "${currentQuestion.question}" (Category: ${currentQuestion.category})
-              
-Response: "${response}"
+      // Get previous responses from localStorage if they exist
+      const previousResponses = localStorage.getItem("previousAssessmentResponses")
+      const parsedPrevious = previousResponses ? JSON.parse(previousResponses) : undefined
 
-Please analyze this with spiritual depth and provide loving guidance in ELI's voice. Format your response with three clear sections:
-1. ANALYSIS: (2-3 sentences of spiritual analysis)
-2. INSIGHT: (one profound insight)
-3. GUIDANCE: (specific next step)`,
-          mode: "eli",
-        }),
-      })
+      // Call our AI analyzer
+      const coaching = await analyzeAssessmentResponse(currentQuestion, response, parsedPrevious)
 
-      const data = await result.json()
-      console.log("AI response:", data)
-
-      // Extract sections from the text response
-      const responseText = data.response || ""
-
-      // Extract sections using regex
-      const analysisMatch = responseText.match(/ANALYSIS:?\s*(.*?)(?=INSIGHT:|$)/is)
-      const insightMatch = responseText.match(/INSIGHT:?\s*(.*?)(?=GUIDANCE:|$)/is)
-      const guidanceMatch = responseText.match(/GUIDANCE:?\s*(.*?)(?=$)/is)
-
-      setAiResponse({
-        analysis: analysisMatch ? analysisMatch[1].trim() : "Your response shows beautiful depth and authenticity.",
-        insight: insightMatch
-          ? insightMatch[1].trim()
-          : "You're exactly where you need to be for your next quantum leap.",
-        guidance: guidanceMatch
-          ? guidanceMatch[1].trim()
-          : "Trust this process of self-discovery and consciousness expansion.",
-      })
-
+      setAiAnalysis((prev) => ({ ...prev, [currentQuestion.id]: coaching }))
+      setCurrentAI(coaching)
+      setAiResponse(coaching)
       setShowAIResponse(true)
+
+      // Apply stat boosts if the function exists
+      if (coaching.statAdjustments && onUpdateStats) {
+        const updates = {
+          consciousness: coaching.statAdjustments,
+          wealthConsciousness: {},
+          moneyIntimacy: {},
+        }
+        onUpdateStats(updates)
+      }
+
+      // Store this response for future comparison
+      const updatedResponses = parsedPrevious || {}
+      updatedResponses[currentQuestion.id] = response
+      localStorage.setItem("previousAssessmentResponses", JSON.stringify(updatedResponses))
     } catch (error) {
-      console.error("AI Analysis error:", error)
-      setAiResponse({
-        analysis: "Your response shows beautiful depth and authenticity, gorgeous soul.",
-        insight: "You're exactly where you need to be for your next quantum leap.",
-        guidance: "Trust this process of self-discovery and consciousness expansion.",
-      })
+      console.error("Error getting AI analysis:", error)
+      // Use our fallback function directly in case of error
+      const fallback = createFallbackResponse(currentQuestion, response)
+      setAiAnalysis((prev) => ({ ...prev, [currentQuestion.id]: fallback }))
+      setCurrentAI(fallback)
+      setAiResponse(fallback)
       setShowAIResponse(true)
-    } finally {
-      setIsLoading(false)
     }
+
+    setIsLoading(false)
   }
 
   const nextQuestion = () => {
