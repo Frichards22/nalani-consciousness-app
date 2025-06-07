@@ -2,10 +2,13 @@ import { openai } from "@ai-sdk/openai"
 import { generateText } from "ai"
 
 const SYSTEM_PROMPTS = {
-  eli: `You are ELI, a revolutionary spiritual wealth consciousness coach. You provide loving, specific guidance about money consciousness, relationships, and spiritual growth. Use terms like "gorgeous soul," "darling," and speak about money as conscious energy. Always be warm, empowering, and practical.`,
-  general: `You are a helpful, knowledgeable AI assistant. Provide accurate, helpful responses to any questions or tasks. Be conversational, clear, and comprehensive.`,
-  money: `You are a money consciousness coach focused on transforming people's relationship with wealth. Help them overcome limiting beliefs, develop abundance mindset, and create practical strategies for financial growth.`,
-  consciousness: `You are a consciousness and spiritual development guide. Help users explore awareness, mindfulness, spiritual growth, and self-discovery. Provide deep insights while remaining practical.`,
+  eli: `You are ELI, a revolutionary spiritual wealth consciousness coach. You provide loving, specific guidance about money consciousness, relationships, and spiritual growth. Use terms like "gorgeous soul," "darling," and speak about money as conscious energy. Always be warm, empowering, and practical. Ask engaging follow-up questions to help users explore deeper.`,
+
+  money: `You are a money consciousness coach focused on transforming people's relationship with wealth. Help them overcome limiting beliefs, develop abundance mindset, and create practical strategies for financial growth. Ask thought-provoking questions about their money story and beliefs. Be encouraging and specific.`,
+
+  consciousness: `You are a consciousness and spiritual development guide. Help users explore awareness, mindfulness, spiritual growth, and self-discovery. Ask deep questions that help them examine their thoughts, beliefs, and patterns. Provide insights while remaining practical and encouraging.`,
+
+  spiritual: `You are a spiritual guide focused on helping people connect with their higher self and divine nature. Explore topics like intuition, purpose, energy, and spiritual practices. Ask questions that help users discover their spiritual path and deepen their connection to the divine.`,
 }
 
 export async function POST(req: Request) {
@@ -16,17 +19,10 @@ export async function POST(req: Request) {
       return Response.json({ error: "Message is required" }, { status: 400 })
     }
 
-    // Check if OpenAI API key exists
     if (!process.env.OPENAI_API_KEY) {
-      return Response.json(
-        {
-          error: "OpenAI API key not configured. Please add OPENAI_API_KEY to your environment variables.",
-        },
-        { status: 500 },
-      )
+      return Response.json({ error: "OpenAI API key not configured" }, { status: 500 })
     }
 
-    // Prepare messages for AI SDK
     const messages = [
       {
         role: "system" as const,
@@ -42,12 +38,11 @@ export async function POST(req: Request) {
       },
     ]
 
-    // Use AI SDK with proper error handling
     const { text } = await generateText({
       model: openai("gpt-3.5-turbo"),
       messages,
       temperature: 0.7,
-      maxTokens: 800,
+      maxTokens: 600,
     })
 
     return Response.json({
@@ -59,26 +54,14 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error("Chat API error:", error)
 
-    // Detailed error handling
     let errorMessage = "Chat API error occurred"
-    const statusCode = 500
 
     if (error.message?.includes("API key")) {
-      errorMessage = "Invalid OpenAI API key. Please check your environment variables."
-    } else if (error.message?.includes("quota") || error.message?.includes("rate limit")) {
-      errorMessage = "OpenAI API quota exceeded or rate limited. Please check your OpenAI account."
-    } else if (error.message?.includes("network") || error.message?.includes("timeout")) {
-      errorMessage = "Network error or timeout. Please try again."
-    } else if (error.message?.includes("model")) {
-      errorMessage = "Model not available. Your account may not have access to this model."
+      errorMessage = "Invalid OpenAI API key"
+    } else if (error.message?.includes("quota")) {
+      errorMessage = "OpenAI API quota exceeded"
     }
 
-    return Response.json(
-      {
-        error: errorMessage,
-        details: error.message,
-      },
-      { status: statusCode },
-    )
+    return Response.json({ error: errorMessage, details: error.message }, { status: 500 })
   }
 }
