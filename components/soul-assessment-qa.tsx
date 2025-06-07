@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
-import { Brain, Bot, Sparkles, TrendingUp, Loader2, CheckCircle } from "lucide-react"
+import { Brain, Sparkles, TrendingUp, Loader2, CheckCircle, Heart } from "lucide-react"
 
 const soulQuestions = [
   {
@@ -74,77 +74,275 @@ export default function SoulAssessmentQA({ onUpdateStats, currentStats }: SoulAs
     setResponses((prev) => ({ ...prev, [questionId]: answer }))
   }
 
+  const getELICoaching = (question: any, response: string): any => {
+    const responseText = response.toLowerCase()
+
+    // First, acknowledge what they actually wrote with ELI's personality
+    let acknowledgment = ""
+
+    // Handle specific responses with ELI's humor and wisdom
+    if (responseText.includes("devil") || responseText.includes("satan") || responseText.includes("hell")) {
+      acknowledgment =
+        "😈 **THE DEVIL?! I'm CACKLING!** You know what, gorgeous? That's the most honest answer I've heard all day. Most people give me some sanitized spiritual bullshit, but you went THERE. "
+    } else if (responseText.includes("nothing") || responseText.includes("don't") || responseText.includes("can't")) {
+      acknowledgment =
+        "💔 **Oh honey, I feel that disconnection in my bones.** That 'nothing' you're feeling? It's not emptiness - it's your soul crying out for something REAL. "
+    } else if (responseText.includes("nature") || responseText.includes("trees") || responseText.includes("ocean")) {
+      acknowledgment =
+        "🌿 **YES! Nature is where the magic happens!** You're one of those souls who remembers that the Divine isn't in some distant heaven - it's in every leaf, every wave, every breath. "
+    } else if (
+      responseText.includes("meditation") ||
+      responseText.includes("prayer") ||
+      responseText.includes("church")
+    ) {
+      acknowledgment =
+        "🙏 **Beautiful! You've found your sacred practice.** Whether it's meditation, prayer, or sitting in church - you know how to tune into something bigger. "
+    } else if (responseText.includes("music") || responseText.includes("dance") || responseText.includes("art")) {
+      acknowledgment =
+        "🎵 **Art as spiritual practice? GENIUS!** You understand that creativity IS divinity expressing itself through you. "
+    } else if (responseText.includes("fuck") || responseText.includes("shit") || responseText.includes("damn")) {
+      acknowledgment = "🔥 **I LOVE the raw honesty!** No spiritual bypassing here - you're keeping it 100% real. "
+    } else if (responseText.length < 5) {
+      acknowledgment = `💫 **'${response}' - short and powerful!** Sometimes the deepest truths need the fewest words. `
+    } else {
+      acknowledgment = `✨ **Thank you for sharing: "${response}"** - I can feel the authenticity in your words. `
+    }
+
+    // Then provide specific coaching based on the question category
+    switch (question.category) {
+      case "Purpose & Calling":
+        if (responseText.includes("money") || responseText.includes("rich") || responseText.includes("wealth")) {
+          return {
+            analysis:
+              acknowledgment +
+              "Here's the plot twist: when you're truly on purpose, money becomes your PARTNER, not your goal. Your soul's calling is the magnet that draws abundance to you. **DO THIS:** Write down 3 ways your purpose could generate income. Your soul's work is meant to be profitable!",
+            insight: "Purpose + Profit = Your soul's true expression. You're not meant to be broke and spiritual.",
+            guidance:
+              "Start the Purpose-to-Profit Practice from Chapter 8: Ask your soul 'How can I serve AND prosper?' every morning for 7 days.",
+            statBoosts: { purpose: 15, abundance: 10 },
+          }
+        }
+        if (responseText.includes("help") || responseText.includes("serve") || responseText.includes("heal")) {
+          return {
+            analysis:
+              acknowledgment +
+              "Your soul is wired for SERVICE - that's your abundance frequency! But here's what most healers get wrong: you can't pour from an empty cup. Your service is MORE powerful when you're financially free. **PRACTICE:** The Wealthy Healer Meditation - visualize yourself serving from overflow, not depletion.",
+            insight: "Service without self-care is martyrdom, not ministry. You're meant to heal AND be wealthy.",
+            guidance:
+              "Do the Receiving Practice: Allow yourself to receive one gift daily for 30 days. This expands your capacity to serve from abundance.",
+            statBoosts: { service: 12, receiving: 8 },
+          }
+        }
+        return {
+          analysis:
+            acknowledgment +
+            "Your purpose is your soul's GPS to abundance. When you're aligned with what makes you feel most alive, money flows naturally. **TRUTH BOMB:** You don't find your purpose - you REMEMBER it. It's been calling to you your whole life.",
+          insight: "Your purpose isn't separate from your prosperity - it's the pathway to it.",
+          guidance:
+            "Do the Soul Calling Meditation: Sit quietly and ask 'What wants to be born through me?' Trust the first answer.",
+          statBoosts: { clarity: 10, alignment: 8 },
+        }
+
+      case "Money Consciousness":
+        if (responseText.includes("fear") || responseText.includes("scared") || responseText.includes("panic")) {
+          return {
+            analysis:
+              acknowledgment +
+              "That fear is your nervous system protecting you from old wounds. But gorgeous, you're not that scared little one anymore. **HEALING PRACTICE:** Do the 90-Second Fear Flush from the book: Breathe in for 4, hold for 4, out for 6. While breathing, say 'I am safe to receive abundance.' This literally rewires your amygdala.",
+            insight:
+              "Fear is just excitement without breath. Your nervous system needs to learn that abundance is safe.",
+            guidance:
+              "Practice the Money Safety Meditation daily: Hold cash while saying 'Money is safe. I am safe. We are safe together.'",
+            statBoosts: { safety: 15, courage: 10 },
+          }
+        }
+        if (responseText.includes("excited") || responseText.includes("joy") || responseText.includes("happy")) {
+          return {
+            analysis:
+              acknowledgment +
+              "THAT'S your wealth frequency! That excitement is your soul recognizing its birthright. You're not just 'ready' for money - you're WIRED for it. **AMPLIFY THIS:** Do the Abundance Activation: Spend 5 minutes daily feeling into having unlimited money. Let that joy expand through your whole body.",
+            insight: "Joy is your abundance GPS. The more you feel it, the more you attract what creates it.",
+            guidance:
+              "Create an Abundance Anchor: Touch your heart and say 'I choose joy' every time you think about money.",
+            statBoosts: { joy: 20, magnetism: 15 },
+          }
+        }
+        return {
+          analysis:
+            acknowledgment +
+            "Your first emotional response to money is your wealth thermostat. Whatever came up is perfect information about your current frequency. **REMEMBER:** You can change your money story at any moment. You're not stuck with old programming.",
+          insight: "Your emotions around money are your guidance system - they show you exactly what needs healing.",
+          guidance:
+            "Do the Emotional Freedom Technique: Tap on your karate chop point while saying 'Even though I have this feeling about money, I deeply love and accept myself.'",
+          statBoosts: { awareness: 12, acceptance: 8 },
+        }
+
+      case "Divine Connection":
+        if (responseText.includes("devil") || responseText.includes("dark") || responseText.includes("evil")) {
+          return {
+            analysis:
+              acknowledgment +
+              "Plot twist: even the 'devil' is part of the Divine! Your willingness to go to the shadow shows spiritual MATURITY. Most people only want the light and love parts. But integration is where the real power is. **SHADOW WORK:** Ask yourself: 'What would my dark side teach me about money?' Sometimes our 'demons' hold our greatest gifts.",
+            insight:
+              "The shadow isn't your enemy - it's your unexpressed power. Your darkness holds keys to your abundance.",
+            guidance:
+              "Do the Shadow Integration Practice: Have a conversation with your 'dark side' about money. What does it want? What is it protecting?",
+            statBoosts: { integration: 20, power: 15 },
+          }
+        }
+        if (responseText.includes("nothing") || responseText.includes("don't") || responseText.includes("alone")) {
+          return {
+            analysis:
+              acknowledgment +
+              "That disconnection you feel? It's not because the Divine isn't there - it's because you've been taught to look for it outside yourself. **TRUTH:** You ARE the Divine expressing itself in human form. The connection you're seeking is the connection to your own soul. **START HERE:** Put your hand on your heart and say 'I am Divine. I am enough. I am home.'",
+            insight: "You're not disconnected from the Divine - you ARE the Divine having a human experience.",
+            guidance:
+              "Practice the Self-Recognition Meditation: Look in the mirror daily and say 'I see the Divine in you' to yourself.",
+            statBoosts: { selfLove: 18, recognition: 12 },
+          }
+        }
+        return {
+          analysis:
+            acknowledgment +
+            "Your connection to the Divine is your secret weapon for abundance. When you know you're co-creating with the universe, scarcity becomes impossible. **COSMIC TRUTH:** The same force that grows flowers and moves planets wants to prosper you. Let it.",
+          insight:
+            "Divine partnership isn't about religion - it's about remembering you're part of something infinite.",
+          guidance:
+            "Practice Divine Co-creation: Before any money decision, ask 'What would Love do?' and trust the first answer.",
+          statBoosts: { trust: 15, partnership: 12 },
+        }
+
+      case "Intuitive Wisdom":
+        if (responseText.includes("ignored") || responseText.includes("wrong") || responseText.includes("mistake")) {
+          return {
+            analysis:
+              acknowledgment +
+              "Your intuition has been trying to save you from settling for crumbs when you deserve the whole feast! Every time you override your inner knowing, you're telling the universe 'I don't trust my own guidance.' **REBUILD TRUST:** Start with tiny decisions - which coffee to order, which route to take. Your intuition is your wealth compass.",
+            insight: "Your intuition is never wrong - you just might misinterpret the timing or the message.",
+            guidance:
+              "Do the Intuition Strengthening Practice: Ask your body 'yes or no' questions and notice the physical sensations. Yes feels expansive, no feels contractive.",
+            statBoosts: { trust: 15, intuition: 12 },
+          }
+        }
+        return {
+          analysis:
+            acknowledgment +
+            "Your intuition is your direct line to divine intelligence. The more you trust it, the more it guides you toward abundance. **MONEY INTUITION:** Start asking your inner wisdom about financial decisions. 'Should I buy this?' 'Is this investment aligned?' Your soul knows the way to wealth.",
+          insight: "Intuition is the language of abundance. When you trust your inner knowing, you trust the flow.",
+          guidance:
+            "Practice the Money Intuition Check: Before any purchase, pause and ask 'Does this feel expansive or contractive?' Trust the first sensation.",
+          statBoosts: { intuition: 18, flow: 10 },
+        }
+
+      case "Worthiness & Blocks":
+        if (
+          responseText.includes("not good enough") ||
+          responseText.includes("don't deserve") ||
+          responseText.includes("unworthy")
+        ) {
+          return {
+            analysis:
+              acknowledgment +
+              "That 'not good enough' story? It's not even YOURS. You inherited it like an old coat that never fit right. **WORTHINESS TRUTH:** You were born worthy. You didn't earn it, you can't lose it, and you don't need to prove it. **PRACTICE:** Look in the mirror daily and say 'I am worthy of abundance simply because I exist.'",
+            insight:
+              "Worthiness isn't earned - it's your birthright. You're worthy because you're alive, not because of what you do.",
+            guidance:
+              "Do the Worthiness Reclamation: Write 'I am worthy of abundance' 100 times. Feel it in your body as you write.",
+            statBoosts: { worthiness: 25, selfLove: 15 },
+          }
+        }
+        return {
+          analysis:
+            acknowledgment +
+            "Every 'I can't have' story is just old programming asking to be updated. **REWRITE TIME:** You get to be the author of your new money story. What if instead of 'I can't have everything I desire,' you said 'I'm learning to receive everything my soul calls in'?",
+          insight: "Your blocks aren't permanent - they're just outdated software that needs updating.",
+          guidance:
+            "Practice the Story Rewrite: Take your limiting belief and flip it. 'I can't have money' becomes 'Money flows to me easily.'",
+          statBoosts: { empowerment: 20, possibility: 12 },
+        }
+
+      case "Self-Love & Care":
+        if (responseText.includes("nothing") || responseText.includes("don't") || responseText.includes("can't")) {
+          return {
+            analysis:
+              acknowledgment +
+              "Oh gorgeous, that breaks my heart and fires me up at the same time. You've been so busy taking care of everyone else that you forgot YOU matter too. **SELF-LOVE EMERGENCY:** Right now, put your hand on your heart and say 'I matter. I am worthy of love. I choose to care for myself.' This is where your money healing begins.",
+            insight:
+              "Self-love isn't selfish - it's the foundation of all abundance. You can't receive what you won't give yourself.",
+            guidance:
+              "Start the Daily Self-Love Practice: Do ONE loving thing for yourself daily - a bath, a walk, a compliment. Build the muscle of receiving your own love.",
+            statBoosts: { selfLove: 25, receiving: 15 },
+          }
+        }
+        return {
+          analysis:
+            acknowledgment +
+            "Self-love is the foundation of all abundance. When you know how to love yourself, you teach others how to love you - including money. **SELF-LOVE = WEALTH:** The more you value yourself, the more valuable you become to the world.",
+          insight: "How you treat yourself is how you teach money to treat you. Self-love is your abundance practice.",
+          guidance:
+            "Upgrade your self-love practice: Ask yourself 'How can I love myself more luxuriously today?' and follow through.",
+          statBoosts: { selfLove: 20, value: 15 },
+        }
+
+      case "Quantum Vision":
+        if (responseText.includes("nothing") || responseText.includes("don't know") || responseText.includes("can't")) {
+          return {
+            analysis:
+              acknowledgment +
+              "That 'I don't know' is actually your soul protecting you from dreaming too small! Your vision is so big it scares your human mind. **PERMISSION SLIP:** You're allowed to want everything your heart desires. You're allowed to dream bigger than your current reality. **VISION ACTIVATION:** If you knew you couldn't fail, what would you create?",
+            insight:
+              "Your 'I don't know' is often 'I'm afraid to want that much.' Your soul's vision is bigger than your fear.",
+            guidance:
+              "Do the Quantum Visioning Practice: Meditate on 'What wants to be born through me?' Trust whatever comes up, no matter how impossible it seems.",
+            statBoosts: { vision: 20, courage: 15 },
+          }
+        }
+        return {
+          analysis:
+            acknowledgment +
+            "THAT vision? That's not just a dream - it's a download from your future self. Your soul doesn't give you visions to torture you - it gives them to you because they're POSSIBLE. **QUANTUM TRUTH:** Your vision exists in the quantum field, waiting for you to align with it.",
+          insight: "Your vision isn't fantasy - it's prophecy. Your soul only shows you what's possible for you.",
+          guidance:
+            "Practice Vision Embodiment: Spend 10 minutes daily living AS IF your vision is already real. Feel it in your body.",
+          statBoosts: { manifestation: 25, alignment: 18 },
+        }
+
+      default:
+        return {
+          analysis:
+            acknowledgment +
+            "Your authentic response is perfect information about where you are right now. **REMEMBER:** You're not broken, you're not behind. You're exactly where you need to be for your next breakthrough. Trust the process, gorgeous soul.",
+          insight: "Every response reveals another layer of your consciousness. You're exactly where you need to be.",
+          guidance: "Trust your journey. Every step is leading you to your highest expression of abundance and joy.",
+          statBoosts: { trust: 10, acceptance: 8 },
+        }
+    }
+  }
+
   const getAIAnalysis = async () => {
     const response = responses[currentQuestion.id]
-    if (!response || response.length < 10) return
+    if (!response || response.length < 3) return
 
     setIsLoading(true)
-    try {
-      const result = await fetch("/api/working-chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: `Question: "${currentQuestion.question}" (Category: ${currentQuestion.category})
-              
-Response: "${response}"
 
-Please analyze this with spiritual depth and provide loving guidance in ELI's voice. Format your response as JSON with these fields: analysis (2-3 sentences), insight (1 profound insight), guidance (specific next step), and statBoosts (object with consciousness stats to increase).`,
-          mode: "eli",
-        }),
-      })
+    // Get ELI's contextual coaching immediately
+    const coaching = getELICoaching(currentQuestion, response)
 
-      const data = await result.json()
-      console.log("AI response:", data)
+    setAiAnalysis((prev) => ({ ...prev, [currentQuestion.id]: coaching }))
+    setCurrentAI(coaching)
+    setShowAIResponse(true)
 
-      // Try to parse AI response as JSON, fallback to text analysis
-      let analysis
-      try {
-        // First try to see if the response is already JSON
-        if (typeof data.response === "object") {
-          analysis = data.response
-        } else {
-          // Try to parse the response as JSON
-          analysis = JSON.parse(data.response)
-        }
-      } catch (e) {
-        console.log("Couldn't parse as JSON, using text fallback")
-        // If parsing fails, create a structured response from the text
-        analysis = {
-          analysis: data.response
-            ? data.response.substring(0, 200) + "..."
-            : "Your soul is revealing beautiful patterns.",
-          insight: "Your soul is expanding in beautiful ways through this awareness.",
-          guidance: "Continue exploring this dimension with love and patience.",
-          statBoosts: { awareness: 10, intuition: 8 },
-        }
+    // Apply stat boosts if the function exists
+    if (coaching.statBoosts && onUpdateStats) {
+      const updates = {
+        consciousness: coaching.statBoosts,
+        wealthConsciousness: {},
+        moneyIntimacy: {},
       }
-
-      setAiAnalysis((prev) => ({ ...prev, [currentQuestion.id]: analysis }))
-      setCurrentAI(analysis)
-      setShowAIResponse(true)
-
-      // Apply stat boosts if the function exists
-      if (analysis.statBoosts && onUpdateStats) {
-        const updates = {
-          consciousness: analysis.statBoosts,
-          wealthConsciousness: {},
-          moneyIntimacy: {},
-        }
-        onUpdateStats(updates)
-      }
-    } catch (error) {
-      console.error("AI Analysis error:", error)
-      const fallback = {
-        analysis: "Your response shows beautiful depth and authenticity, gorgeous soul.",
-        insight: "You're exactly where you need to be for your next quantum leap.",
-        guidance: "Trust this process of self-discovery and consciousness expansion.",
-        statBoosts: { awareness: 8, intuition: 6 },
-      }
-      setCurrentAI(fallback)
-      setShowAIResponse(true)
-    } finally {
-      setIsLoading(false)
+      onUpdateStats(updates)
     }
+
+    setIsLoading(false)
   }
 
   const nextQuestion = () => {
@@ -201,8 +399,8 @@ Please analyze this with spiritual depth and provide loving guidance in ELI's vo
           <div className="flex items-center gap-3">
             <Brain className="h-8 w-8 text-indigo-400" />
             <div>
-              <CardTitle className="text-2xl text-indigo-300">Soul Assessment (AI)</CardTitle>
-              <p className="text-indigo-200">7 thought-provoking questions with AI analysis</p>
+              <CardTitle className="text-2xl text-indigo-300">Soul Assessment</CardTitle>
+              <p className="text-indigo-200">7 thought-provoking questions with ELI's authentic coaching</p>
             </div>
           </div>
           <Badge className="bg-gradient-to-r from-indigo-500 to-purple-500">
@@ -233,7 +431,7 @@ Please analyze this with spiritual depth and provide loving guidance in ELI's vo
 
           <CardContent>
             <textarea
-              placeholder="Share your authentic truth... The AI will analyze your response with spiritual depth."
+              placeholder="Share your authentic truth... ELI will provide personalized coaching based on exactly what you write."
               value={responses[currentQuestion.id] || ""}
               onChange={(e) => handleResponse(currentQuestion.id, e.target.value)}
               className="w-full min-h-[120px] text-lg p-4 rounded-lg bg-blue-900/20 border border-blue-500/30 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -244,19 +442,19 @@ Please analyze this with spiritual depth and provide loving guidance in ELI's vo
           </CardContent>
         </Card>
 
-        {/* AI Analysis */}
+        {/* ELI's Coaching Response */}
         {showAIResponse && currentAI && (
           <Card className="bg-green-900/30 border-green-500/30">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-green-300">
-                <Bot className="h-5 w-5" />
-                ELI's AI Soul Reading
+                <Heart className="h-5 w-5" />
+                ELI's Personalized Coaching
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="p-4 bg-green-800/20 rounded-lg">
-                <h4 className="font-semibold text-green-300 mb-2">✨ Analysis:</h4>
-                <p className="text-white">{currentAI.analysis}</p>
+                <h4 className="font-semibold text-green-300 mb-2">💫 Coaching Insight:</h4>
+                <div className="text-white leading-relaxed whitespace-pre-line">{currentAI.analysis}</div>
               </div>
 
               <div className="p-4 bg-blue-800/20 rounded-lg">
@@ -289,17 +487,17 @@ Please analyze this with spiritual depth and provide loving guidance in ELI's vo
           </Button>
 
           <div className="flex gap-3">
-            {!showAIResponse && responses[currentQuestion.id] && responses[currentQuestion.id].length > 10 && (
+            {!showAIResponse && responses[currentQuestion.id] && responses[currentQuestion.id].length > 2 && (
               <Button onClick={getAIAnalysis} disabled={isLoading} className="bg-green-600 hover:bg-green-700">
                 {isLoading ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                    AI Analyzing...
+                    ELI is coaching...
                   </>
                 ) : (
                   <>
-                    <Bot className="h-4 w-4 mr-2" />
-                    Get AI Analysis
+                    <Heart className="h-4 w-4 mr-2" />
+                    Get ELI's Coaching
                   </>
                 )}
               </Button>
