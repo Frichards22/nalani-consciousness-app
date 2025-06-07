@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import AIConsciousnessAssessment from "@/components/ai-consciousness-assessment"
 import DailyEssentials from "@/components/daily-essentials"
 import LevelProgressionGuide from "@/components/level-progression-guide"
 import InteractiveIntimacyPractices from "@/components/interactive-intimacy-practices"
-import AIConsciousnessAssessment from "@/components/ai-consciousness-assessment"
 import AudioTourGuide from "@/components/audio-tour-guide"
 import NalaniChat from "@/components/nalani-chat"
 
@@ -441,7 +441,8 @@ export default function UltimateGoddessConsciousness() {
           </div>
         </div>
       )}
-      {/* Live Chat with ELI */}
+
+      {/* Nalani Chat - FULLY FUNCTIONAL */}
       <NalaniChat />
     </div>
   )
