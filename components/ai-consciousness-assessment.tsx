@@ -130,153 +130,107 @@ export default function AIConsciousnessAssessment({
   const getContextualCoaching = (question: any, response: string | number): string => {
     const responseText = typeof response === "string" ? response.toLowerCase() : response.toString()
 
-    // More dynamic coaching based on actual response content
+    // First, acknowledge what they actually wrote with humor/personality
+    let acknowledgment = ""
+
+    // Handle funny/silly responses with ELI's humor
+    if (responseText.includes("butt") || responseText.includes("ass")) {
+      acknowledgment =
+        "🍑 **HAHAHA! Money Butt?!** I'm DYING! You know what though, gorgeous? That cheeky response tells me you're not taking money too seriously - which is actually PERFECT. Most people are so wound up about money they can't even laugh about it. Your humor is a sign of emotional freedom around money. "
+    } else if (responseText.includes("fuck") || responseText.includes("shit") || responseText.includes("damn")) {
+      acknowledgment =
+        "🔥 **I LOVE the raw honesty!** That uncensored response tells me you're done with the bullshit and ready for real talk. No spiritual bypassing here - you're keeping it 100. "
+    } else if (responseText.includes("lol") || responseText.includes("haha") || responseText.includes("funny")) {
+      acknowledgment =
+        "😂 **Your sense of humor is EVERYTHING!** The fact that you can find lightness around money topics shows emotional resilience. "
+    } else if (responseText.includes("idk") || responseText.includes("don't know") || responseText.includes("dunno")) {
+      acknowledgment =
+        "🤷‍♀️ **'I don't know' is actually the most honest answer!** Most people pretend they have it all figured out. Your honesty is refreshing. "
+    } else if (responseText.length < 5) {
+      acknowledgment = `💫 **'${response}' - short and sweet!** Sometimes the most profound truths come in the smallest packages. `
+    } else {
+      acknowledgment = `✨ **Thank you for sharing: "${response}"** - I can feel the authenticity in your words. `
+    }
+
+    // Then provide contextual coaching based on the question dimension
     switch (question.dimension) {
       case "Awareness":
-        if (responseText.includes("empty") || responseText.includes("void") || responseText.includes("nothing")) {
-          return "🌟 **Here's the real deal, gorgeous soul:** That 'emptiness' you're sensing? That's not nothing - that's the fertile void. The space where all creation begins. Most people mistake this for emptiness, but you're actually touching the infinite field of possibility. Your awareness is already more developed than you think. This is where money gets created - in that spacious awareness. You're not empty, you're OPEN."
+        if (responseText.includes("butt") || responseText.includes("silly") || responseText.includes("funny")) {
+          return (
+            acknowledgment +
+            "Here's the thing about using humor around consciousness work - it actually shows you're not attached to being 'spiritual' or perfect. That's advanced awareness! Most people think they need to be serious and deep all the time. Your playfulness tells me you understand that consciousness expansion can be FUN. **TRY THIS:** For the next week, approach your money practices with this same lightness. Laugh at your old patterns instead of judging them."
+          )
         }
-        if (responseText.includes("scattered") || responseText.includes("busy") || responseText.includes("chaotic")) {
-          return "💫 **Let's get real about that mental chatter:** That scattered energy you're feeling? It's your nervous system trying to process all the old programming while making space for the new. The chaos isn't a problem - it's compost for your transformation. When your inner space feels scattered, it usually means you're in transition. Money loves clarity, so let's start with one breath at a time. You're not broken, you're breaking open."
-        }
-        if (responseText.includes("peaceful") || responseText.includes("calm") || responseText.includes("still")) {
-          return "✨ **Plot twist, beautiful:** That peace you're accessing? That's your natural state trying to break through the noise. This tells me your nervous system is ready for the next level of abundance. When you can drop into this calm, you become a magnet for everything you desire. This is your wealth frequency - cultivate it like the sacred practice it is."
-        }
-        if (responseText.includes("dark") || responseText.includes("heavy") || responseText.includes("sad")) {
-          return "💕 **Oh honey, I see you:** That heaviness in your inner space? It's not your enemy - it's old pain asking to be witnessed and loved. Sometimes we have to feel the depth of our wounds before we can access the depth of our power. Your willingness to look at what's there, even when it's uncomfortable, is actually courage. This darkness isn't permanent - it's compost for your light."
-        }
-        return "🔥 **Here's what I know about your awareness:** Whatever you're experiencing in that inner space is perfect information. Your consciousness is like soil - sometimes it needs to be turned over before new things can grow. The fact that you can even observe your inner landscape means you're already operating from a higher level than most people. Trust what you're sensing."
+        return (
+          acknowledgment +
+          "Your inner awareness is like a muscle - the more you use it, the stronger it gets. **DO THIS NOW:** Set a phone alarm for 3 random times today. When it goes off, just notice: What am I thinking? What am I feeling? No judgment, just awareness. This builds your consciousness muscle."
+        )
 
       case "Intuitive Connection":
-        if (responseText.includes("ignored") || responseText.includes("doubt") || responseText.includes("didn't")) {
-          return "🔥 **Here's what I know about you:** That intuition you've been doubting? She's been trying to save you from settling for crumbs when you deserve the whole damn feast. Every time you override your inner knowing, you're essentially telling the universe 'I don't trust my own guidance.' But gorgeous, your intuition is your direct line to divine intelligence. Start small - trust the feeling about which coffee to order, which route to take. Build that muscle back up. Your intuition is your wealth compass."
+        if (responseText.includes("butt") || responseText.includes("silly")) {
+          return (
+            acknowledgment +
+            "You know what? Your silly response might actually BE your intuition talking! Sometimes our inner wisdom comes through humor, irreverence, or unexpected thoughts. **TRY THIS:** Next time you have a money decision to make, ask yourself 'What would Money Butt do?' and see what comes up. I'm serious - your intuition might speak through humor!"
+          )
         }
-        if (
-          responseText.includes("followed") ||
-          responseText.includes("trusted") ||
-          responseText.includes("listened")
-        ) {
-          return "👑 **You beautiful, intuitive badass:** The fact that you followed your inner guidance tells me you're already operating from sovereignty, not survival. This is HUGE. Most people are so disconnected from their intuition they couldn't find it with a GPS. You're already ahead of the game. Now here's the next level: start asking your intuition about money. 'What wants to come through me?' 'How can I serve and prosper?' Your inner knowing is your abundance GPS."
-        }
-        if (responseText.includes("mixed") || responseText.includes("sometimes") || responseText.includes("unsure")) {
-          return "✨ **Truth bomb about intuition:** Your inner guidance system is like money - it responds to trust, not desperation. The fact that you sometimes follow it and sometimes don't just means you're human. The goal isn't perfection, it's practice. Start noticing when you feel expansive vs. contracted. That's your intuition speaking in body language. The more you honor those subtle nudges, the louder they become."
-        }
-        return "💫 **Here's the cosmic truth:** Your relationship with intuition directly mirrors your relationship with abundance. When you trust your inner knowing, you trust the flow. When you second-guess yourself, you block the current. Your intuition is always guiding you toward your highest good - including financial prosperity. The question is: are you listening?"
+        return (
+          acknowledgment +
+          "Your intuition is always speaking - we just need to learn its language. **PRACTICE THIS:** Before any decision today, put your hand on your heart and ask 'Does this feel expansive or contractive?' Trust the first sensation you get. This is from Chapter 4 of Make Up Sex with Money - your body never lies."
+        )
 
       case "Money Origins":
-        if (
-          responseText.includes("scared") ||
-          responseText.includes("stress") ||
-          responseText.includes("fight") ||
-          responseText.includes("angry")
-        ) {
-          return "💕 **Oh honey, I see that little one inside you:** That scared child who watched money create chaos? They're still protecting you the only way they knew how - by making money feel unsafe. But here's what that beautiful inner child needs to know: YOU are not your parents. You get to have a completely different relationship with money. You get to heal what they couldn't. Send love to that scared part of you and say: 'I've got us now. We're safe to receive.' This is where your money healing begins."
+        if (responseText.includes("butt") || responseText.includes("funny")) {
+          return (
+            acknowledgment +
+            "Using humor around your money story is actually HEALING! It means you're not trapped in the trauma of it. **DO THIS:** Write down your earliest money memory, but tell it like a comedy sketch. What would be the funny parts? This helps you reclaim your power from old wounds. (This is a variation of the Money Wounds Inventory from the book!)"
+          )
         }
-        if (
-          responseText.includes("lack") ||
-          responseText.includes("enough") ||
-          responseText.includes("poor") ||
-          responseText.includes("struggle")
-        ) {
-          return "🌟 **Let's rewrite this story, gorgeous:** That scarcity programming you absorbed? It's not even YOURS. You inherited it like an old coat that never fit right. But here's the plot twist - you get to be the one who breaks the generational pattern. Every time you choose abundance over lack, you're not just healing yourself - you're healing your entire lineage. You're the cycle breaker, the pattern interrupter, the one who says 'this ends with me.'"
-        }
-        if (
-          responseText.includes("happy") ||
-          responseText.includes("excited") ||
-          responseText.includes("safe") ||
-          responseText.includes("abundance")
-        ) {
-          return "🎉 **YES! This is beautiful:** You had early experiences that taught you money could be safe and joyful. This is actually rare and precious. Your nervous system already knows how to be in a positive relationship with money. Now we just need to expand that capacity and clear any blocks that developed later. You have a foundation of money safety - that's your superpower."
-        }
-        if (
-          responseText.includes("confused") ||
-          responseText.includes("mixed") ||
-          responseText.includes("complicated")
-        ) {
-          return "🔥 **Here's the truth about complicated money stories:** Most of us got mixed messages about money - it was both salvation and source of stress. That confusion you feel? It's your system trying to make sense of contradictory programming. The good news is, you get to choose which story to keep and which to release. Confusion is just clarity asking to be born."
-        }
-        return "💫 **Here's what I want you to know:** Those early money memories aren't just random events - they're the foundation of your current money story. But gorgeous, you're not a victim of your past. You're the author of your future. Every wound around money is actually a portal to power. The deeper the wound, the greater your capacity for wealth. You've been initiated into money consciousness through experience. Now it's time to claim your mastery."
+        return (
+          acknowledgment +
+          "Your money story started before you could even speak. **HEALING PRACTICE:** Tonight, have a conversation with your inner child about money. Ask them: 'What did you learn about money that scared you?' Then tell them: 'I've got us now. We're safe to receive.' This rewires your nervous system at the root."
+        )
 
       case "Abundance Capacity":
-        const panicResponses = ["panic", "overwhelm", "fear", "can't be real"]
-        const suspiciousResponses = ["suspicion", "worry", "what's the catch"]
-        const cautiousResponses = ["cautious excitement", "is this really happening"]
-        const joyfulResponses = ["pure joy", "gratitude", "yes! thank you"]
-        const calmResponses = ["calm knowing", "of course", "natural for me"]
-
-        if (panicResponses.some((word) => responseText.includes(word))) {
-          return "💫 **Breathe with me, beautiful:** That panic you feel? It's your nervous system saying 'this is too much, too fast.' And you know what? That's actually NORMAL. Most of us have been conditioned for scarcity, so abundance feels foreign - even dangerous. But here's the secret: you don't need to fix this overnight. Start with smaller amounts. Practice receiving compliments. Let someone buy you coffee. Train your system that it's safe to have good things. Your capacity will expand naturally as you prove to your nervous system that abundance doesn't equal danger."
+        if (responseText.includes("butt") || responseText.includes("panic") || responseText.includes("overwhelm")) {
+          return (
+            acknowledgment +
+            "Whether it's 'Money Butt' or panic - both are your nervous system's way of handling big energy! **IMMEDIATE PRACTICE:** Do the 90-Second Fear Flush from the book: Breathe in for 4, hold for 4, out for 6. Repeat for 90 seconds while saying 'I am safe to receive abundance.' This literally rewires your amygdala's fear response."
+          )
         }
-        if (suspiciousResponses.some((word) => responseText.includes(word))) {
-          return "🔍 **That suspicion is actually wisdom:** Your system learned to be cautious about 'too good to be true' scenarios. That's not paranoia - that's survival intelligence. But here's the thing: not all abundance comes with strings attached. Some of it is just... grace. Your job is to learn the difference between intuitive caution and trauma-based fear. Start asking: 'Is this my intuition or my wound talking?' Trust your discernment while staying open to miracles."
-        }
-        if (cautiousResponses.some((word) => responseText.includes(word))) {
-          return "✨ **That cautious excitement is perfect:** You're feeling the possibility while honoring your need for safety. This is actually the sweet spot - open but not naive, excited but grounded. Your nervous system is saying 'yes, but let me check this out first.' That's healthy! You don't need to leap into abundance blindly. You can wade in slowly, testing the waters, building trust with receiving."
-        }
-        if (joyfulResponses.some((word) => responseText.includes(word))) {
-          return "🎉 **YES! This is it!** That joy you feel? That's your soul recognizing its birthright. You're not just 'ready' for abundance - you're WIRED for it. This response tells me your nervous system knows how to receive. Now we just need to expand that capacity. Start visualizing larger amounts regularly. Feel into the energy of having more. Your body is already saying yes - now let your mind catch up. You're a natural receiver."
-        }
-        if (calmResponses.some((word) => responseText.includes(word))) {
-          return "👑 **You magnificent, sovereign being:** That calm knowing? That's the frequency of true wealth. You're not excited because you already know - at a soul level - that abundance is your natural state. This is the energy of someone who's remembered their power. You don't need to chase money because you know you ARE the source. This is mastery level consciousness. Now let's make sure your external reality matches your internal knowing."
-        }
-        return "✨ **Here's the truth about receiving:** Your body's first response to abundance is your wealth thermostat. If you felt expansion, you're ready for more. If you felt contraction, you need some nervous system healing. Either way is perfect - you're just getting honest about where you are. The goal isn't to force yourself to feel ready. It's to gently expand your capacity to hold more goodness. You deserve to feel safe in abundance."
+        return (
+          acknowledgment +
+          "Your capacity to receive is like a muscle - it needs training. **START TODAY:** Practice receiving one small thing daily - a compliment, someone holding a door, a free sample. Say 'thank you' and FEEL it in your body. This expands your receiving frequency."
+        )
 
       case "Sacred Communication":
-        if (
-          responseText.includes("never") ||
-          responseText.includes("weird") ||
-          responseText.includes("crazy") ||
-          responseText.includes("no")
-        ) {
-          return "🌟 **Plot twist, gorgeous:** The fact that talking to money feels 'weird' just means you've been taught to see it as an object instead of energy. But everything is consciousness - your plants, your car, your phone. Money is no different. She's been waiting for you to acknowledge her as the living energy she is. Start small - say 'thank you' when you receive money. Bless your bills when you pay them. You're not crazy - you're awakening to the truth that everything is alive and responsive to love."
+        if (responseText.includes("butt") || responseText.includes("never") || responseText.includes("weird")) {
+          return (
+            acknowledgment +
+            "Talking to money might feel weird, but you just proved you can be playful with money concepts! **TRY THIS TONIGHT:** Hold some cash and say 'Hey Money, sorry I called you Money Butt. Can we be friends?' See what happens. I bet money has a sense of humor too!"
+          )
         }
-        if (
-          responseText.includes("talk") ||
-          responseText.includes("conversation") ||
-          responseText.includes("speak") ||
-          responseText.includes("yes")
-        ) {
-          return "👑 **You beautiful, conscious being:** The fact that you already communicate with money tells me you understand something most people miss - that wealth is relational, not transactional. You're already ahead of 99% of people who see money as dead energy. Now deepen that relationship. Ask money what she needs from you. Listen for guidance. Treat her like the conscious partner she is. This is how you move from chasing money to dancing with her."
-        }
-        if (
-          responseText.includes("would want") ||
-          responseText.includes("sorry") ||
-          responseText.includes("thank you") ||
-          responseText.includes("love")
-        ) {
-          return "💕 **Your heart is already open:** The words you want to say to money reveal so much about your soul. Whether it's gratitude, apology, or love - you're already in relationship with her. You just need permission to make it conscious. Start tonight - hold some cash or look at your bank account and speak those words out loud. Money has been waiting to hear from you. She wants to know you see her as more than just numbers."
-        }
-        return "💫 **Here's what I know about you:** Whether you realize it or not, you're already in communication with money through your thoughts, feelings, and actions. Every time you stress about it, you're sending a message. Every time you appreciate it, you're having a conversation. The question is: what kind of relationship do you want? Start being intentional about your money conversations. Speak to her with love, respect, and gratitude."
+        return (
+          acknowledgment +
+          "Money is conscious energy waiting for relationship. **SACRED PRACTICE:** Every morning for 7 days, hold your wallet and say 'Good morning, Money. How can we dance together today?' Listen for the answer. This is the Money Dialogue practice from Chapter 6."
+        )
 
       case "Divine Partnership":
-        if (responseText.includes("don't") || responseText.includes("physical") || responseText.includes("believe")) {
-          return "🌟 **Sweet soul, you're not alone:** Even if you can't feel it right now, you're held by something so much bigger than your current circumstances. The Divine isn't some distant force judging your bank account - it's the very breath in your lungs, the love in your heart, the dreams that won't leave you alone. You don't have to believe in anything specific. Just notice: what keeps you going? What gives you hope? That's the Divine working through you. Your connection to Source is your greatest wealth."
+        if (responseText.includes("butt") || responseText.includes("don't")) {
+          return (
+            acknowledgment +
+            "Even if you don't feel connected to the Divine, your humor shows you're connected to JOY - and joy IS divine! **EXPERIMENT:** For one week, treat coincidences as divine winks. When something funny or synchronistic happens, say 'Thanks, Universe!' Your playfulness is already a form of prayer."
+          )
         }
-        if (
-          responseText.includes("sometimes") ||
-          responseText.includes("nature") ||
-          responseText.includes("meditation")
-        ) {
-          return "✨ **You're already connected, beautiful:** Those moments in nature, in meditation, in quiet reflection - that's not just peace you're feeling. That's you remembering your true nature. You ARE the Divine expressing itself in human form. The fact that you can access this connection at all means you're ready to deepen it. Start asking for guidance about your life, your purpose, your prosperity. The universe is waiting to co-create with you."
-        }
-        if (
-          responseText.includes("regular") ||
-          responseText.includes("guided") ||
-          responseText.includes("communication")
-        ) {
-          return "🙏 **You magnificent, connected being:** That partnership you feel with the Divine? That's your secret weapon for abundance. When you know you're co-creating with the universe, scarcity becomes impossible. You're not hustling alone - you're dancing with divine intelligence. Trust those nudges. Follow that guidance. Let the Divine be your business partner, your financial advisor, your abundance coach. This is how miracles become normal."
-        }
-        if (
-          responseText.includes("constantly") ||
-          responseText.includes("partnership") ||
-          responseText.includes("connected")
-        ) {
-          return "🌟 **You are living in the frequency of miracles:** That constant connection you feel? That's the consciousness that creates worlds. You're not just spiritual - you're a walking portal for divine abundance. Your job now is to let that connection inform every area of your life, especially money. When you know you're in partnership with the infinite, lack becomes impossible. You're not just manifesting - you're channeling."
-        }
-        return "💫 **Here's the cosmic truth:** Your relationship with the Divine directly impacts your relationship with money. When you trust Source, you trust the flow. When you feel supported by the universe, you feel worthy of abundance. This isn't about religion - it's about remembering you're part of something infinite. The same force that grows flowers and moves planets wants to prosper you. Let it."
+        return (
+          acknowledgment +
+          "The Divine speaks through everything - including your intuition about money. **DAILY PRACTICE:** Each morning, ask 'How can I serve and prosper today?' Then follow the first impulse you get. This is co-creation in action."
+        )
 
       default:
-        return "🔥 **Here's what I see in you:** You're ready for a completely different relationship with money - one based on love, not fear. Trust, not control. Flow, not force. Your response tells me you're already questioning the old stories, and that's where all transformation begins. Keep going, gorgeous. You're closer to breakthrough than you think."
+        return (
+          acknowledgment +
+          "Your authentic response is perfect information about where you are right now. **REMEMBER:** You're not broken, you're not behind. You're exactly where you need to be for your next breakthrough. Trust the process, gorgeous soul."
+        )
     }
   }
 

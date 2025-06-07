@@ -89,51 +89,51 @@ export default function WorkingChat() {
     const hasRelationship = /relationship|partner|marriage|dating|love|connection|intimacy/i.test(input)
     const hasSpiritual = /spiritual|divine|universe|god|source|energy|soul|meditation|prayer/i.test(input)
 
-    // Personalized coaching based on content and mode
+    // Specific book exercises and practices based on content
     if (chatMode === "eli") {
       if (hasScarcity) {
-        return "🔥 **Money Truth Bomb:** That scarcity feeling isn't YOUR programming - it's inherited conditioning. Your nervous system learned that money isn't safe or abundant. But gorgeous, you can rewire this! Every time you notice these thoughts, remind yourself: 'This isn't my truth. I'm breaking the pattern.' Your consciousness creates your reality - and you're the author of this story now."
+        return "**TRY THIS:** Do the 'Money Wounds Inventory' from Chapter 3. Write down every negative money belief you've inherited, then ask: 'Whose voice is this really?' For each one, create a counter-statement: 'I release the belief that ___ and claim the truth that ___.' Do this daily for 7 days while placing your hand on your heart to rewire your nervous system."
       }
 
       if (hasAbundance) {
-        return "✨ **I see you, abundant being!** You're already speaking the language of prosperity consciousness! This isn't just positive thinking - you're literally shifting your frequency to match the vibration of wealth. Keep embodying this truth. Money responds to your energy before your actions. The more you FEEL abundant, the more evidence of abundance appears."
+        return "**PRACTICE THIS:** Use the 'Frequency Amplification' technique from Chapter 7. For 3 minutes each morning, stand with arms wide open and declare: 'I am a magnet for money. Money flows to me easily and abundantly.' Then list 5 specific ways money has already come to you this week. This activates your Reticular Activating System to notice more evidence of abundance."
       }
 
       if (hasFear) {
-        return "💕 **Oh honey, I see you:** That fear you're feeling? It's not weakness - it's your nervous system trying to protect you. Thank that part of you for keeping you safe, then gently remind it: 'We're safe to expand now.' Fear and excitement share the same physical sensations - it's just your interpretation that differs. What if this feeling is actually excitement about what's possible?"
+        return "**DO THIS NOW:** Try the '90-Second Fear Flush' from Chapter 5. When fear arises: 1) Place one hand on your heart, one on your belly 2) Breathe deeply for 90 seconds while saying 'I am safe with money' 3) Ask 'What would love do instead of fear?' This interrupts your amygdala's fear response and activates your prefrontal cortex."
       }
 
       if (hasWorthiness) {
-        return "👑 **Listen to me, gorgeous soul:** Your worthiness isn't something you earn - it's your birthright. You don't need to hustle for your value. You don't need to prove anything to deserve abundance. Your net worth will never exceed your self-worth, so the most important wealth work you can do is healing that worthiness wound. You are enough. Period."
+        return "**TONIGHT'S HOMEWORK:** Do the 'Worth Reclamation' mirror practice from Chapter 4. Stand before a mirror, look into your eyes, and declare: 'I am worthy because I exist. My worth is my birthright.' Then list 3 ways you've added value to the world today. This rewires your worthiness neural pathways through the power of self-witnessing."
       }
 
       if (hasRelationship && hasScarcity) {
-        return "💫 **Here's the truth about love and money:** Your relationship patterns and money patterns are mirror images of each other. How you do intimacy is how you do currency. If you're struggling to receive love, you're likely blocking money too. If you don't feel safe in relationships, you probably don't feel safe with abundance. Heal one, and you heal both."
+        return "**TRY THIS EXERCISE:** Complete the 'Parallel Patterns' worksheet from Chapter 9. In two columns, list your relationship patterns and money patterns. Circle the similarities. Then use the 'Ho'oponopono Money Healing' practice: For each pattern, say 'I'm sorry. Please forgive me. Thank you. I love you.' to both money and your partner."
       }
 
       if (hasSpiritual) {
-        return "🌟 **Beautiful spiritual being:** Your connection to Source is your greatest wealth asset. When you remember that you're co-creating with the Universe, scarcity becomes impossible. You're not manifesting alone - you're dancing with divine intelligence. Let your spiritual practice inform your money practice. They're not separate."
+        return "**SACRED PRACTICE:** Implement the 'Divine Money Connection' ritual from Chapter 6. Create a money altar with symbols of abundance. Each morning, place your hand on your heart and say: 'Divine Source, flow through me as abundance today. Use me as a channel for prosperity.' Then visualize golden light flowing from Source, through your crown chakra, and out your hands as money."
       }
 
-      // Default ELI coaching if no specific patterns detected
-      return "✨ **I see the truth of who you are:** You're not just here to survive - you're here to thrive in your divine purpose. Your consciousness is expanding, and your external reality will soon catch up to match your inner evolution. Trust the process, trust your heart, and most importantly - trust that you're exactly where you need to be for your next quantum leap."
+      // Default ELI coaching with specific practice
+      return "**START HERE:** Begin with the 'Consciousness Calibration' exercise from Chapter 2. Rate your current money consciousness from 1-10. Then identify which of the 7 Money Archetypes from the book you're currently embodying (Avoider, Worrier, Spender, Hoarder, Giver, Receiver, or Alchemist). This awareness alone will shift your relationship with wealth."
     }
 
     if (chatMode === "money") {
       if (hasScarcity || hasFear) {
-        return "I hear your concerns about money. Remember that your relationship with money is just that - a relationship. Like any relationship, it can be healed and transformed with conscious attention and care. What would it feel like to approach money as a partner rather than an adversary?"
+        return "**PRACTICAL STEP:** Use the 'Money Dialogue' technique from page 87. Write a letter from Money to you, then respond as yourself. Ask: 'Money, what do you need from me to feel safe in this relationship?' Then actually implement what Money tells you - even if it's as simple as checking your bank balance daily without judgment."
       }
 
       if (hasAbundance) {
-        return "Your abundance mindset is powerful! When you see money as energy that flows rather than a limited resource, you open yourself to receiving more. Keep nurturing this perspective and watch how your financial reality shifts to match it."
+        return "**ABUNDANCE ACCELERATOR:** Practice the 'Receiving Meditation' from page 112. Sit with palms open upward for 5 minutes daily while breathing deeply and repeating: 'I open to receive all forms of abundance now.' Then immediately afterward, write down 3 unexpected gifts you've received in the past 24 hours."
       }
 
-      // Default money coaching
-      return "Your relationship with money reveals so much about your deeper patterns and beliefs. By bringing consciousness to how you think and feel about money, you're already changing your financial destiny."
+      // Default money coaching with specific tip
+      return "**TRY THIS TODAY:** Implement the 'Sacred Money Date' practice from page 65. Schedule 20 minutes weekly to review your finances with curiosity instead of judgment. Light a candle, play beautiful music, and approach your money as you would a lover - with presence, care and attention. Notice how this shifts your entire relationship with wealth."
     }
 
-    // Default coaching for other modes
-    return "This emotion is showing you exactly where your growth edge is. Whether it's excitement, fear, or curiosity, this is valuable information about your consciousness. Your awareness is the first step to transformation."
+    // Default coaching for other modes with specific suggestion
+    return "**ACTION STEP:** Use the 'Frequency Finder' tool from page 43. On a scale of 1-10, rate your current emotional state about this situation. Then ask: 'What would raise my frequency by just 1 point?' Take that small action immediately. This incremental approach creates sustainable transformation rather than temporary motivation."
   }
 
   const generateAssistantResponse = (userInput: string, chatMode: string): string => {
