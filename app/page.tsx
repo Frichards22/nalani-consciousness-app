@@ -146,49 +146,120 @@ export default function ELIApp() {
     },
   ]
 
-  // Assessment questions with coaching
+  // UPDATED ASSESSMENT QUESTIONS WITH REAL ELI COACHING
   const assessmentQuestions = [
     {
       question: "What makes you feel most alive and in your power?",
       category: "Soul Purpose",
-      coaching:
-        "Beautiful! Your soul is speaking through what lights you up. This is your North Star - the more you align with this energy, the more magnetic you become to everything you desire. Notice how your body feels when you think about this... that's your inner GPS guiding you home to yourself.",
+      getCoaching: (response: string) => {
+        const responseText = response.toLowerCase()
+        if (responseText.includes("money") || responseText.includes("wealth") || responseText.includes("rich")) {
+          return `✨ **Thank you for sharing: "${response}"** - I can feel the authenticity in your words. Here's the plot twist: when you're truly on purpose, money becomes your PARTNER, not your goal. Your soul's calling is the magnet that draws abundance to you. **DO THIS:** Write down 3 ways your purpose could generate income. Your soul's work is meant to be profitable!`
+        }
+        if (responseText.includes("help") || responseText.includes("serve") || responseText.includes("heal")) {
+          return `💕 **"${response}" - Your soul is wired for SERVICE!** That's your abundance frequency! But here's what most healers get wrong: you can't pour from an empty cup. Your service is MORE powerful when you're financially free. **PRACTICE:** The Wealthy Healer Meditation - visualize yourself serving from overflow, not depletion.`
+        }
+        return `🔥 **"${response}" - Beautiful!** Your soul is speaking through what lights you up. This is your North Star - the more you align with this energy, the more magnetic you become to everything you desire. Notice how your body feels when you think about this... that's your inner GPS guiding you home to yourself.`
+      },
     },
     {
       question: "If you had unlimited money right now, what's the first emotion you'd feel?",
       category: "Money Relationship",
-      coaching:
-        "Aha! This emotion is pure gold - it's showing you exactly what your relationship with money looks like right now. Whether it's excitement, fear, or overwhelm, this is where your money work begins. Your emotions are the gateway to transforming your wealth consciousness.",
+      getCoaching: (response: string) => {
+        const responseText = response.toLowerCase()
+        if (
+          responseText.includes("drugs") ||
+          responseText.includes("gambling") ||
+          responseText.includes("lose") ||
+          responseText.includes("waste")
+        ) {
+          return `💔 **"${response}" - Holy shit, that's RAW honesty!** Most people would never admit that. Your fear of self-destruction around money is actually your soul protecting you from old patterns. **TRUTH BOMB:** You don't trust yourself with abundance because you've learned money = chaos. **HEALING PRACTICE:** Do the Money Safety Meditation: Hold cash while saying 'I am safe with money. Money is safe with me. We heal together.'`
+        }
+        if (responseText.includes("fear") || responseText.includes("scared") || responseText.includes("panic")) {
+          return `🫂 **"${response}" - That fear is your nervous system protecting you from old wounds.** But gorgeous, you're not that scared little one anymore. **HEALING PRACTICE:** Do the 90-Second Fear Flush from the book: Breathe in for 4, hold for 4, out for 6. While breathing, say 'I am safe to receive abundance.' This literally rewires your amygdala.`
+        }
+        if (responseText.includes("excited") || responseText.includes("joy") || responseText.includes("happy")) {
+          return `🎉 **"${response}" - THAT'S your wealth frequency!** That excitement is your soul recognizing its birthright. You're not just 'ready' for money - you're WIRED for it. **AMPLIFY THIS:** Do the Abundance Activation: Spend 5 minutes daily feeling into having unlimited money. Let that joy expand through your whole body.`
+        }
+        return `✨ **Thank you for sharing: "${response}"** - Your first emotional response to money is your wealth thermostat. Whatever came up is perfect information about your current frequency. **REMEMBER:** You can change your money story at any moment. You're not stuck with old programming.`
+      },
     },
     {
       question: "How do you connect with something greater than yourself?",
       category: "Divine Connection",
-      coaching:
-        "This is your spiritual superpower! However you connect - whether through nature, meditation, or dancing in your kitchen - this is how you tap into infinite intelligence. The stronger this connection, the more you trust the universe has your back with money and everything else.",
+      getCoaching: (response: string) => {
+        const responseText = response.toLowerCase()
+        if (responseText.includes("devil") || responseText.includes("dark") || responseText.includes("evil")) {
+          return `😈 **"${response}" - THE DEVIL?! I'm CACKLING!** You know what, gorgeous? That's the most honest answer I've heard all day. Plot twist: even the 'devil' is part of the Divine! Your willingness to go to the shadow shows spiritual MATURITY. **SHADOW WORK:** Ask yourself: 'What would my dark side teach me about money?' Sometimes our 'demons' hold our greatest gifts.`
+        }
+        if (responseText.includes("nothing") || responseText.includes("don't") || responseText.includes("can't")) {
+          return `💔 **"${response}" - Oh honey, I feel that disconnection in my bones.** That 'nothing' you're feeling? It's not emptiness - it's your soul crying out for something REAL. **TRUTH:** You ARE the Divine expressing itself in human form. The connection you're seeking is the connection to your own soul. **START HERE:** Put your hand on your heart and say 'I am Divine. I am enough. I am home.'`
+        }
+        if (responseText.includes("nature") || responseText.includes("trees") || responseText.includes("ocean")) {
+          return `🌿 **"${response}" - YES! Nature is where the magic happens!** You're one of those souls who remembers that the Divine isn't in some distant heaven - it's in every leaf, every wave, every breath. Your connection to nature IS your connection to abundance. The same force that grows trees wants to grow your wealth.`
+        }
+        return `🙏 **"${response}" - This is your spiritual superpower!** However you connect - whether through nature, meditation, or dancing in your kitchen - this is how you tap into infinite intelligence. The stronger this connection, the more you trust the universe has your back with money and everything else.`
+      },
     },
     {
       question: "Describe a time when you trusted your intuition completely. What happened?",
       category: "Inner Wisdom",
-      coaching:
-        "YES! This is proof that your inner wisdom is real and powerful. Your intuition is your built-in success system - it knows things your logical mind hasn't figured out yet. The more you trust and follow these hits, the more magical your life becomes.",
+      getCoaching: (response: string) => {
+        const responseText = response.toLowerCase()
+        if (responseText.includes("wrong") || responseText.includes("mistake") || responseText.includes("bad")) {
+          return `💫 **"${response}" - Your intuition has been trying to save you from settling for crumbs when you deserve the whole feast!** Every time you override your inner knowing, you're telling the universe 'I don't trust my own guidance.' **REBUILD TRUST:** Start with tiny decisions - which coffee to order, which route to take. Your intuition is your wealth compass.`
+        }
+        if (responseText.includes("nothing") || responseText.includes("never") || responseText.includes("don't")) {
+          return `🤷‍♀️ **"${response}" - 'I don't know' is actually the most honest answer!** Most people pretend they have it all figured out. Your honesty is refreshing. **TRUTH:** You DO have intuition - you just might call it something else. That 'gut feeling' or 'random thought'? That's your inner wisdom speaking.`
+        }
+        return `👑 **"${response}" - YES! This is proof that your inner wisdom is real and powerful.** Your intuition is your built-in success system - it knows things your logical mind hasn't figured out yet. The more you trust and follow these hits, the more magical your life becomes.`
+      },
     },
     {
       question: "What story do you tell yourself about why you can't have what you desire?",
       category: "Worthiness Blocks",
-      coaching:
-        "Thank you for being so honest! This story has been running the show, but here's the plot twist - it's just a story, not the truth. Every limiting belief is just an old program that can be rewritten. You're already worthy of everything you desire, period.",
+      getCoaching: (response: string) => {
+        const responseText = response.toLowerCase()
+        if (
+          responseText.includes("not good enough") ||
+          responseText.includes("don't deserve") ||
+          responseText.includes("unworthy")
+        ) {
+          return `💕 **"${response}" - That 'not good enough' story? It's not even YOURS.** You inherited it like an old coat that never fit right. **WORTHINESS TRUTH:** You were born worthy. You didn't earn it, you can't lose it, and you don't need to prove it. **PRACTICE:** Look in the mirror daily and say 'I am worthy of abundance simply because I exist.'`
+        }
+        if (responseText.includes("selfish") || responseText.includes("greedy") || responseText.includes("bad")) {
+          return `🔥 **"${response}" - Ah, the 'money is evil' programming!** Let me blow your mind: Money is just energy. It's not good or bad - it's neutral. What matters is the consciousness behind it. **REFRAME:** Instead of 'wanting money is selfish,' try 'having money allows me to serve at a higher level.'`
+        }
+        return `✨ **Thank you for sharing: "${response}"** - Thank you for being so honest! This story has been running the show, but here's the plot twist - it's just a story, not the truth. Every limiting belief is just an old program that can be rewritten. You're already worthy of everything you desire, period.`
+      },
     },
     {
       question: "How do you show love to yourself when no one is watching?",
       category: "Self-Love",
-      coaching:
-        "This is where the real magic happens! Self-love isn't selfish - it's the foundation of everything. The way you treat yourself sets the standard for how life treats you. Keep expanding these moments of self-love... you deserve to be cherished, especially by you.",
+      getCoaching: (response: string) => {
+        const responseText = response.toLowerCase()
+        if (responseText.includes("nothing") || responseText.includes("don't") || responseText.includes("can't")) {
+          return `💔 **"${response}" - Oh gorgeous, that breaks my heart and fires me up at the same time.** You've been so busy taking care of everyone else that you forgot YOU matter too. **SELF-LOVE EMERGENCY:** Right now, put your hand on your heart and say 'I matter. I am worthy of love. I choose to care for myself.' This is where your money healing begins.`
+        }
+        if (responseText.includes("bath") || responseText.includes("treat") || responseText.includes("buy")) {
+          return `💖 **"${response}" - YES! You understand that self-love is an ACTION, not just a feeling!** This is where the real magic happens! Self-love isn't selfish - it's the foundation of everything. The way you treat yourself sets the standard for how life treats you. Keep expanding these moments of self-love... you deserve to be cherished, especially by you.`
+        }
+        return `🌟 **"${response}" - This is where the real magic happens!** Self-love isn't selfish - it's the foundation of everything. The way you treat yourself sets the standard for how life treats you. Keep expanding these moments of self-love... you deserve to be cherished, especially by you.`
+      },
     },
     {
       question: "If you couldn't fail, what would you create in this world?",
       category: "Quantum Vision",
-      coaching:
-        "Holy wow! This vision isn't random - it's your soul's assignment. The fact that you can see it means you're meant to create it. Start taking tiny steps toward this vision, because the universe is conspiring to help you make it real.",
+      getCoaching: (response: string) => {
+        const responseText = response.toLowerCase()
+        if (responseText.includes("nothing") || responseText.includes("don't know") || responseText.includes("can't")) {
+          return `🌟 **"${response}" - That 'I don't know' is actually your soul protecting you from dreaming too small!** Your vision is so big it scares your human mind. **PERMISSION SLIP:** You're allowed to want everything your heart desires. You're allowed to dream bigger than your current reality. **VISION ACTIVATION:** If you knew you couldn't fail, what would you create?`
+        }
+        if (responseText.includes("money") || responseText.includes("wealth") || responseText.includes("rich")) {
+          return `💰 **"${response}" - I love that you're honest about wanting wealth!** Most people are too scared to admit it. Here's the thing: your desire for money isn't shallow - it's your soul calling for FREEDOM. Money is just the vehicle for your bigger vision. **EXPAND THIS:** What would you do with unlimited wealth? That's your real vision.`
+        }
+        return `🚀 **"${response}" - Holy wow! This vision isn't random - it's your soul's assignment.** The fact that you can see it means you're meant to create it. Start taking tiny steps toward this vision, because the universe is conspiring to help you make it real.`
+      },
     },
   ]
 
@@ -446,9 +517,11 @@ export default function ELIApp() {
                           <Sparkles className="w-5 h-5" />
                           Coaching Insight
                         </h3>
-                        <p className="text-white leading-relaxed">
-                          {assessmentQuestions[currentQuestionIndex].coaching}
-                        </p>
+                        <div className="text-white leading-relaxed whitespace-pre-line">
+                          {assessmentQuestions[currentQuestionIndex].getCoaching(
+                            assessmentAnswers[currentQuestionIndex],
+                          )}
+                        </div>
                       </div>
 
                       <div className="flex justify-between items-center">
