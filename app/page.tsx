@@ -281,9 +281,46 @@ export default function ELIApp() {
     return prompts[mode as keyof typeof prompts] || prompts.eli
   }
 
+  // Handle prompt click with proper functionality
+  const handlePromptClick = async (prompt: string) => {
+    setMessage(prompt)
+
+    // Auto-submit the message
+    const userMessage = { role: "user", content: prompt }
+    setChatHistory((prev) => [...prev, userMessage])
+    setMessage("")
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: prompt,
+          mode: chatMode,
+          conversationHistory: chatHistory,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to get response")
+      }
+
+      setChatHistory((prev) => [...prev, { role: "assistant", content: data.response }])
+    } catch (err: any) {
+      console.error("Chat error:", err)
+      setError(err.message || "Something went wrong. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-pink-900 text-white">
-      <div className="container mx-auto px-4 py-6 max-w-6xl">
+      <div className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-6">
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-400 bg-clip-text text-transparent mb-3">
@@ -388,7 +425,7 @@ export default function ELIApp() {
             <SoulWealthAssessment onComplete={handleAssessmentComplete} />
           </TabsContent>
 
-          {/* Chat Tab */}
+          {/* Chat Tab - REDESIGNED LAYOUT */}
           <TabsContent value="chat" className="space-y-4">
             {/* Chat Mode Selector */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -406,125 +443,134 @@ export default function ELIApp() {
               ))}
             </div>
 
-            {/* Suggested Prompts */}
-            <Card className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border-purple-500/20">
-              <CardContent className="p-4">
-                <h3 className="text-white font-medium mb-3 flex items-center gap-2">
-                  <Sparkles className="h-4 w-4" />
-                  Try asking {chatModes[chatMode as keyof typeof chatModes].name}:
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {getSuggestedPrompts(chatMode).map((prompt, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setMessage(prompt)}
-                      className="text-left justify-start h-auto p-3 border-purple-500/30 text-white hover:bg-purple-800/30 hover:text-white whitespace-normal"
-                    >
-                      "{prompt}"
-                    </Button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Main Chat Card */}
-            <Card className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 border-purple-500/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center justify-between text-purple-300">
-                  <div className="flex items-center gap-2">
-                    <Bot className="h-5 w-5" />
-                    Nalani AI - {chatModes[chatMode as keyof typeof chatModes].name}
-                  </div>
-                  <Button
-                    onClick={clearChat}
-                    size="sm"
-                    variant="outline"
-                    className="border-purple-500/50 text-purple-300 hover:bg-purple-800/30"
-                  >
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Clear Chat
-                  </Button>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Chat Messages */}
-                <div className="space-y-3 min-h-[400px] max-h-[600px] overflow-y-auto p-4 rounded-lg bg-black/20">
-                  {chatHistory.length === 0 ? (
-                    <div className="text-center text-white py-8">
-                      <Bot className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p className="text-lg mb-4 font-medium">Ready to level up your life? Let's dive in!</p>
-                    </div>
-                  ) : (
-                    chatHistory.map((msg, i) => (
-                      <div
-                        key={i}
-                        className={`p-4 rounded-lg ${
-                          msg.role === "user"
-                            ? "bg-purple-800/40 border border-purple-500/30 ml-4"
-                            : "bg-pink-800/40 border border-pink-500/30 mr-4"
-                        }`}
+            {/* MAIN CHAT LAYOUT - Two Column Design */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              {/* LEFT SIDEBAR - Suggested Prompts */}
+              <div className="lg:col-span-1">
+                <Card className="bg-gradient-to-br from-purple-900/40 to-pink-900/40 border-purple-500/30 h-full">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-purple-200 text-lg flex items-center gap-2">
+                      <Sparkles className="h-5 w-5" />
+                      Ask {chatModes[chatMode as keyof typeof chatModes].name}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {getSuggestedPrompts(chatMode).map((prompt, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handlePromptClick(prompt)}
+                        disabled={isLoading}
+                        className="w-full text-left p-3 rounded-lg border border-purple-500/30 bg-purple-900/20 hover:bg-purple-800/40 transition-all duration-200 text-gray-200 hover:text-white text-sm leading-relaxed hover:border-purple-400/50 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <div className="flex items-center gap-2 mb-2">
-                          <div
-                            className={`text-sm font-bold ${msg.role === "user" ? "text-purple-300" : "text-pink-300"}`}
-                          >
-                            {msg.role === "user" ? "You" : "Nalani AI"}
-                          </div>
-                        </div>
-                        <div className="text-white font-medium leading-relaxed whitespace-pre-wrap">{msg.content}</div>
+                        💬 "{prompt}"
+                      </button>
+                    ))}
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* RIGHT MAIN CHAT AREA */}
+              <div className="lg:col-span-2">
+                <Card className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 border-purple-500/30">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="flex items-center justify-between text-purple-300">
+                      <div className="flex items-center gap-2">
+                        <Bot className="h-5 w-5" />
+                        Nalani AI - {chatModes[chatMode as keyof typeof chatModes].name}
                       </div>
-                    ))
-                  )}
-
-                  {isLoading && (
-                    <div className="p-4 rounded-lg bg-pink-800/40 border border-pink-500/30 mr-4 flex items-center gap-2">
-                      <Loader2 className="h-4 w-4 animate-spin text-pink-300" />
-                      <span className="text-pink-200">Getting insights for you...</span>
-                    </div>
-                  )}
-
-                  {error && (
-                    <div className="p-4 rounded-lg bg-red-900/40 border border-red-500/30 text-red-200">
-                      <p className="font-bold">Error:</p>
-                      <p>{error}</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Input Form */}
-                <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                  <Textarea
-                    placeholder="What's on your mind? Let's get real about it..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    className="min-h-[120px] bg-black/20 border-purple-500/30 focus:border-purple-400 text-white"
-                    disabled={isLoading}
-                  />
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-purple-300">Press Enter to send • Shift+Enter for new line</span>
-                    <Button
-                      type="submit"
-                      disabled={isLoading || !message.trim()}
-                      className={`bg-gradient-to-r ${chatModes[chatMode as keyof typeof chatModes].color}`}
-                    >
-                      {isLoading ? (
-                        <>
-                          <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                          Sending...
-                        </>
+                      <Button
+                        onClick={clearChat}
+                        size="sm"
+                        variant="outline"
+                        className="border-purple-500/50 text-purple-300 hover:bg-purple-800/30"
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Clear Chat
+                      </Button>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {/* Chat Messages */}
+                    <div className="space-y-3 h-[500px] overflow-y-auto p-4 rounded-lg bg-black/20">
+                      {chatHistory.length === 0 ? (
+                        <div className="text-center text-gray-200 py-8">
+                          <Bot className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                          <p className="text-lg mb-2 font-medium">Ready to level up your life?</p>
+                          <p className="text-sm text-gray-300">Click a question on the left or type your own below!</p>
+                        </div>
                       ) : (
-                        <>
-                          Send <Send className="h-4 w-4 ml-2" />
-                        </>
+                        chatHistory.map((msg, i) => (
+                          <div
+                            key={i}
+                            className={`p-4 rounded-lg ${
+                              msg.role === "user"
+                                ? "bg-purple-800/40 border border-purple-500/30 ml-4"
+                                : "bg-pink-800/40 border border-pink-500/30 mr-4"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 mb-2">
+                              <div
+                                className={`text-sm font-bold ${msg.role === "user" ? "text-purple-300" : "text-pink-300"}`}
+                              >
+                                {msg.role === "user" ? "You" : "Nalani AI"}
+                              </div>
+                            </div>
+                            <div className="text-gray-100 font-medium leading-relaxed whitespace-pre-wrap">
+                              {msg.content}
+                            </div>
+                          </div>
+                        ))
                       )}
-                    </Button>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
+
+                      {isLoading && (
+                        <div className="p-4 rounded-lg bg-pink-800/40 border border-pink-500/30 mr-4 flex items-center gap-2">
+                          <Loader2 className="h-4 w-4 animate-spin text-pink-300" />
+                          <span className="text-pink-200">Getting insights for you...</span>
+                        </div>
+                      )}
+
+                      {error && (
+                        <div className="p-4 rounded-lg bg-red-900/40 border border-red-500/30 text-red-200">
+                          <p className="font-bold">Error:</p>
+                          <p>{error}</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Input Form */}
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                      <Textarea
+                        placeholder="What's on your mind? Let's get real about it..."
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        className="min-h-[100px] bg-black/20 border-purple-500/30 focus:border-purple-400 text-white"
+                        disabled={isLoading}
+                      />
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-purple-300">Press Enter to send • Shift+Enter for new line</span>
+                        <Button
+                          type="submit"
+                          disabled={isLoading || !message.trim()}
+                          className={`bg-gradient-to-r ${chatModes[chatMode as keyof typeof chatModes].color}`}
+                        >
+                          {isLoading ? (
+                            <>
+                              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                              Sending...
+                            </>
+                          ) : (
+                            <>
+                              Send <Send className="h-4 w-4 ml-2" />
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </form>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </TabsContent>
 
           {/* Daily Essentials Tab */}
@@ -555,7 +601,7 @@ export default function ELIApp() {
                       <div className="space-y-3">
                         <div className="flex justify-between items-start">
                           <div>
-                            <h3 className="font-medium text-white flex items-center gap-2">
+                            <h3 className="font-medium text-gray-200 flex items-center gap-2">
                               <span>{essential.icon}</span> {essential.title}
                             </h3>
                           </div>
@@ -576,7 +622,7 @@ export default function ELIApp() {
                         {/* Exercise Options */}
                         {essential.hasExercise && essential.exercises && (
                           <div className="space-y-2">
-                            <label className="text-sm text-white">Choose your exercise:</label>
+                            <label className="text-sm text-gray-300">Choose your exercise:</label>
                             <select
                               value={selectedExercises[essential.id] || ""}
                               onChange={(e) =>
@@ -594,7 +640,7 @@ export default function ELIApp() {
 
                             {selectedExercises[essential.id] && (
                               <div className="p-3 rounded bg-purple-800/30 border border-purple-500/30">
-                                <p className="text-sm text-white">{selectedExercises[essential.id]}</p>
+                                <p className="text-sm text-gray-200">{selectedExercises[essential.id]}</p>
                               </div>
                             )}
                           </div>
