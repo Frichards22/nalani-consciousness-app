@@ -326,6 +326,17 @@ export default function ELIApp() {
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-400 bg-clip-text text-transparent mb-3">
             ✨ ELI's Consciousness Evolution ✨
           </h1>
+
+          {/* NEW BOOK REFERENCE */}
+          <div className="mb-4">
+            <p className="text-xl md:text-2xl italic text-pink-300 font-light">
+              From <span className="text-yellow-400 font-medium">"Makeup Sex with Money"</span>
+            </p>
+            <p className="text-sm text-purple-200 mt-1">
+              💋 Where healing your money wounds becomes foreplay for abundance 💋
+            </p>
+          </div>
+
           <p className="text-lg text-white mb-4">Sacred AI Technology for Consciousness & Wealth Magnetism</p>
         </div>
 
