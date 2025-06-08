@@ -4,16 +4,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
-import { TrendingUp, Heart, Brain, Sparkles, Target, RotateCcw, Trash2 } from "lucide-react"
+import { TrendingUp, Heart, Brain, Sparkles, Target } from "lucide-react"
 import type { AssessmentScores } from "@/lib/ai/assessment-scorer"
 
 interface AssessmentResultsProps {
   scores: AssessmentScores
   onReset: () => void
   onClearAll: () => void
+  onComplete?: () => void
 }
 
-export default function AssessmentResults({ scores, onReset, onClearAll }: AssessmentResultsProps) {
+export default function AssessmentResults({ scores, onReset, onClearAll, onComplete }: AssessmentResultsProps) {
   const getScoreColor = (score: number) => {
     if (score >= 8) return "text-green-400"
     if (score >= 6) return "text-yellow-400"
@@ -141,19 +142,23 @@ export default function AssessmentResults({ scores, onReset, onClearAll }: Asses
       </Card>
 
       {/* Action Buttons */}
-      <div className="flex gap-3 justify-center">
-        <Button
-          onClick={onReset}
-          variant="outline"
-          className="border-purple-500/50 text-purple-300 hover:bg-purple-800/30"
-        >
-          <RotateCcw className="h-4 w-4 mr-2" />
-          Retake Assessment
-        </Button>
-        <Button onClick={onClearAll} variant="outline" className="border-red-500/50 text-red-300 hover:bg-red-800/30">
-          <Trash2 className="h-4 w-4 mr-2" />
-          Clear Everything
-        </Button>
+      <div className="text-center space-y-4">
+        <p className="text-white text-lg">🔥 BOOM! Your Daily Essentials are now UNLOCKED</p>
+        <p className="text-purple-200">Time to live this transformation every damn day</p>
+
+        <div className="flex gap-3 justify-center">
+          <Button
+            onClick={() => {
+              if (onComplete) onComplete()
+            }}
+            className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-lg px-8 py-3"
+          >
+            🚀 Start Daily Practice
+          </Button>
+          <Button onClick={onReset} variant="outline" className="border-purple-500/50 text-purple-300">
+            Journey Again
+          </Button>
+        </div>
       </div>
     </div>
   )

@@ -119,6 +119,22 @@ interface SoulWealthAssessmentProps {
   onComplete?: () => void
 }
 
+const getRandomPlaceholder = () => {
+  const placeholders = [
+    "Spill the tea, gorgeous... what's really going on?",
+    "Get raw and real here - your soul is listening...",
+    "No bullshit zone - what's your truth?",
+    "Time to get vulnerable, beautiful human...",
+    "Your breakthrough is hiding in this answer...",
+    "What would you say if no one was judging?",
+    "Channel your inner badass and tell the truth...",
+    "This is your safe space to be completely honest...",
+    "Your future self is waiting for this answer...",
+    "What's the story you've never told anyone?",
+  ]
+  return placeholders[Math.floor(Math.random() * placeholders.length)]
+}
+
 export default function SoulWealthAssessment({ onComplete }: SoulWealthAssessmentProps) {
   const [currentStageIndex, setCurrentStageIndex] = useState(0)
   const [responses, setResponses] = useState<Record<string, string>>({})
@@ -185,12 +201,14 @@ Your next step is to choose one of the exercises and commit to it for the next 7
       try {
         const scores = await scoreAssessment(responses)
         setAssessmentScores(scores)
+        setIsComplete(true)
+        if (onComplete) onComplete()
       } catch (error) {
         console.error("Scoring failed:", error)
+        setIsComplete(true)
+        if (onComplete) onComplete()
       }
       setIsScoring(false)
-      setIsComplete(true)
-      if (onComplete) onComplete()
     }
   }
 
@@ -264,7 +282,7 @@ Your next step is to choose one of the exercises and commit to it for the next 7
             </div>
 
             <textarea
-              placeholder="Share your truth here... ELI's wisdom from the book will guide you."
+              placeholder={getRandomPlaceholder()}
               value={responses[currentStage.id] || ""}
               onChange={(e) => handleResponse(currentStage.id, e.target.value)}
               className="w-full min-h-[120px] text-lg p-4 rounded-lg bg-blue-900/20 border border-blue-500/30 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -349,10 +367,19 @@ Your next step is to choose one of the exercises and commit to it for the next 7
             )}
 
             {showBookWisdom && (
-              <Button onClick={nextStage} className="bg-gradient-to-r from-indigo-500 to-purple-600">
-                {currentStageIndex === bookStages.length - 1 ? (
+              <Button
+                onClick={nextStage}
+                disabled={isScoring}
+                className="bg-gradient-to-r from-indigo-500 to-purple-600"
+              >
+                {isScoring ? (
                   <>
-                    Complete Journey <Crown className="h-4 w-4 ml-2" />
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    Calculating Your Scores...
+                  </>
+                ) : currentStageIndex === bookStages.length - 1 ? (
+                  <>
+                    Complete Journey & Get Scores <Crown className="h-4 w-4 ml-2" />
                   </>
                 ) : (
                   <>
