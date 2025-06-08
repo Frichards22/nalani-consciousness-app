@@ -46,6 +46,54 @@ const mockGetRandomQuote = (stage: string) => {
   return quotes[Math.floor(Math.random() * quotes.length)]
 }
 
+// Mock wisdom responses for when API fails
+const getMockWisdomResponse = (stageId: string, userResponse: string) => {
+  const mockResponses = [
+    `🔥 Beautiful soul, I see you diving deep into your money story. This is where real transformation begins!
+
+Your response shows you're ready to face the truth about your relationship with money. Remember, as ELI says in "Make Up Sex with Money," your money wounds aren't your fault, but healing them is your responsibility.
+
+The fact that you're even doing this work puts you ahead of 95% of people. Your consciousness is expanding, and money is responding to your new frequency.
+
+Try this exercise: Write a breakup letter to your old money story. Be raw, be real, and don't hold back. This is how you reclaim your power.
+
+I'm already seeing your energy shift. Keep going!`,
+
+    `Wow, gorgeous! Your vulnerability here is your superpower. 
+
+In "Make Up Sex with Money," ELI talks about how grief is the gateway to abundance. You can't receive what you won't let yourself want, and you're clearly opening to wanting more.
+
+Your response shows you're at a pivotal point in your money journey. The old stories are losing their grip, and new possibilities are emerging.
+
+For your next step, try the "Money Altar" practice from Stage 5. Create a beautiful space that honors money as the conscious energy it is. Place symbols of abundance there and visit it daily.
+
+Your frequency is already shifting. I can feel it!`,
+
+    `Oh hell yes! This is the kind of raw honesty that creates quantum shifts in your abundance.
+
+As ELI says in Chapter 4 of "Make Up Sex with Money," forgiveness is the foreplay of abundance. You can't receive with a clenched fist or a closed heart.
+
+Your response shows you're ready to release the old stories and step into a new relationship with money. This is huge!
+
+Try this practice from the book: Speak to money as if it's a conscious lover who wants the best for you. What would you say? How would you invite it to stay?
+
+The universe is already responding to your new frequency. Keep going!`,
+
+    `Divine being, your words carry so much power and truth!
+
+In "Make Up Sex with Money," ELI teaches that your relationship with money is the longest relationship you'll ever have. It's time to make it a love story.
+
+Your response shows you're shifting from victim to creator in your money story. This is where magic happens!
+
+For your next step, try the "Sacred Money Vows" practice from Stage 6. Write vows to money as if you're entering a sacred partnership. Read them daily for 21 days.
+
+Your consciousness is expanding, and abundance is rushing toward you. I can feel it!`,
+  ]
+
+  // Return a random mock response
+  return mockResponses[Math.floor(Math.random() * mockResponses.length)]
+}
+
 // The 7 Stages from "Make Up Sex with Money"
 const bookStages = [
   {
@@ -236,6 +284,7 @@ export default function SoulWealthAssessment({ onComplete }: SoulWealthAssessmen
   const [bookWisdom, setBookWisdom] = useState<string>("")
   const [assessmentScores, setAssessmentScores] = useState<any>(null)
   const [isScoring, setIsScoring] = useState(false)
+  const [apiError, setApiError] = useState<boolean>(false)
 
   const currentStage = bookStages[currentStageIndex]
   const progress = ((currentStageIndex + 1) / bookStages.length) * 100
@@ -249,6 +298,7 @@ export default function SoulWealthAssessment({ onComplete }: SoulWealthAssessmen
     if (!response || response.length < 5) return // Lowered threshold
 
     setIsLoadingWisdom(true)
+    setApiError(false)
 
     try {
       // Call AI to get book-based wisdom
@@ -264,21 +314,27 @@ export default function SoulWealthAssessment({ onComplete }: SoulWealthAssessmen
 
       const data = await apiResponse.json()
 
-      if (data.response) {
+      if (data.error) {
+        console.warn("API returned an error:", data.error)
+        setApiError(true)
+
+        // Use the mock response if provided, otherwise generate one
+        if (data.mockResponse && data.response) {
+          setBookWisdom(data.response)
+        } else {
+          setBookWisdom(getMockWisdomResponse(currentStage.id, response))
+        }
+      } else if (data.response) {
         setBookWisdom(data.response)
       } else {
         throw new Error("No response from API")
       }
     } catch (error) {
       console.error("Error getting book wisdom:", error)
+      setApiError(true)
+
       // Fallback wisdom
-      setBookWisdom(`🔥 Beautiful soul, your response to ${currentStage.title} shows you're ready for deep transformation. 
-
-${mockGetRandomQuote(currentStage.id)}
-
-Your next step is to choose one of the exercises and commit to it for the next 7 days. This is how real change happens - one conscious choice at a time.
-
-The universe is already responding to your new frequency. Keep going!`)
+      setBookWisdom(getMockWisdomResponse(currentStage.id, response))
     }
 
     setShowBookWisdom(true)
@@ -292,6 +348,7 @@ The universe is already responding to your new frequency. Keep going!`)
       setShowBookWisdom(false)
       setBookWisdom("")
       setSelectedExercise("")
+      setApiError(false)
     } else {
       // Assessment completed - get AI scoring
       setIsScoring(true)
@@ -328,6 +385,7 @@ The universe is already responding to your new frequency. Keep going!`)
     setBookWisdom("")
     setAssessmentScores(null)
     setIsScoring(false)
+    setApiError(false)
   }
 
   const clearAll = () => {
@@ -435,12 +493,21 @@ The universe is already responding to your new frequency. Keep going!`)
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-green-300">
                 <Sparkles className="h-5 w-5" />
-                Wisdom from "Make Up Sex with Money"
+                {apiError ? "Book Wisdom (Demo Mode)" : 'Wisdom from "Make Up Sex with Money"'}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="p-4 bg-green-800/20 rounded-lg">
                 <p className="text-white leading-relaxed whitespace-pre-line">{bookWisdom}</p>
+
+                {apiError && (
+                  <div className="mt-4 p-3 bg-yellow-900/30 border border-yellow-500/30 rounded-lg">
+                    <p className="text-yellow-200 text-sm">
+                      Note: This is a demo response. In the full version with a valid API key, you'll receive
+                      personalized guidance based on your specific input.
+                    </p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -455,6 +522,7 @@ The universe is already responding to your new frequency. Keep going!`)
                 setShowBookWisdom(false)
                 setBookWisdom("")
                 setSelectedExercise("")
+                setApiError(false)
               }
             }}
             disabled={currentStageIndex === 0}
@@ -506,13 +574,6 @@ The universe is already responding to your new frequency. Keep going!`)
               </Button>
             )}
           </div>
-        </div>
-
-        {/* Debug Info (remove in production) */}
-        <div className="text-xs text-gray-400 p-2 bg-gray-800/20 rounded">
-          Debug: Stage {currentStageIndex + 1} | Response: {currentResponse.length} chars | Has Valid:{" "}
-          {hasValidResponse ? "✓" : "✗"} | Can Get Wisdom: {canGetWisdom ? "✓" : "✗"} | Show Wisdom:{" "}
-          {showBookWisdom ? "✓" : "✗"} | Can Proceed: {canProceed ? "✓" : "✗"}
         </div>
 
         {/* Progress Dots */}
