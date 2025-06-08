@@ -409,7 +409,7 @@ export default function ELIApp() {
             {/* Suggested Prompts */}
             <Card className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border-purple-500/20">
               <CardContent className="p-4">
-                <h3 className="text-purple-200 font-medium mb-3 flex items-center gap-2">
+                <h3 className="text-white font-medium mb-3 flex items-center gap-2">
                   <Sparkles className="h-4 w-4" />
                   Try asking {chatModes[chatMode as keyof typeof chatModes].name}:
                 </h3>
@@ -420,7 +420,7 @@ export default function ELIApp() {
                       variant="outline"
                       size="sm"
                       onClick={() => setMessage(prompt)}
-                      className="text-left justify-start h-auto p-3 border-purple-500/30 text-purple-200 hover:bg-purple-800/30 hover:text-white whitespace-normal"
+                      className="text-left justify-start h-auto p-3 border-purple-500/30 text-white hover:bg-purple-800/30 hover:text-white whitespace-normal"
                     >
                       "{prompt}"
                     </Button>
@@ -452,9 +452,9 @@ export default function ELIApp() {
                 {/* Chat Messages */}
                 <div className="space-y-3 min-h-[400px] max-h-[600px] overflow-y-auto p-4 rounded-lg bg-black/20">
                   {chatHistory.length === 0 ? (
-                    <div className="text-center text-purple-200 py-8">
+                    <div className="text-center text-white py-8">
                       <Bot className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p className="text-lg mb-4">Ready to level up your life? Let's dive in!</p>
+                      <p className="text-lg mb-4 font-medium">Ready to level up your life? Let's dive in!</p>
                     </div>
                   ) : (
                     chatHistory.map((msg, i) => (
@@ -473,7 +473,7 @@ export default function ELIApp() {
                             {msg.role === "user" ? "You" : "Nalani AI"}
                           </div>
                         </div>
-                        <div className="text-gray-100 leading-relaxed whitespace-pre-wrap">{msg.content}</div>
+                        <div className="text-white font-medium leading-relaxed whitespace-pre-wrap">{msg.content}</div>
                       </div>
                     ))
                   )}
@@ -555,7 +555,7 @@ export default function ELIApp() {
                       <div className="space-y-3">
                         <div className="flex justify-between items-start">
                           <div>
-                            <h3 className="font-medium text-purple-200 flex items-center gap-2">
+                            <h3 className="font-medium text-white flex items-center gap-2">
                               <span>{essential.icon}</span> {essential.title}
                             </h3>
                           </div>
@@ -576,7 +576,7 @@ export default function ELIApp() {
                         {/* Exercise Options */}
                         {essential.hasExercise && essential.exercises && (
                           <div className="space-y-2">
-                            <label className="text-sm text-purple-300">Choose your exercise:</label>
+                            <label className="text-sm text-white">Choose your exercise:</label>
                             <select
                               value={selectedExercises[essential.id] || ""}
                               onChange={(e) =>
@@ -594,7 +594,7 @@ export default function ELIApp() {
 
                             {selectedExercises[essential.id] && (
                               <div className="p-3 rounded bg-purple-800/30 border border-purple-500/30">
-                                <p className="text-sm text-purple-200">{selectedExercises[essential.id]}</p>
+                                <p className="text-sm text-white">{selectedExercises[essential.id]}</p>
                               </div>
                             )}
                           </div>
