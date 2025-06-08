@@ -251,6 +251,36 @@ export default function ELIApp() {
     setActiveTab("assessment")
   }
 
+  const getSuggestedPrompts = (mode: string) => {
+    const prompts = {
+      eli: [
+        "I feel stuck with money and don't know why I keep sabotaging myself",
+        "How do I heal my relationship with money when I grew up poor?",
+        "I make good money but still feel anxious about spending it",
+        "What's the difference between need and desire when it comes to money?",
+      ],
+      money: [
+        "Why do I feel guilty every time I spend money on myself?",
+        "How can I stop the feast or famine cycle with my income?",
+        "I want to ask for a raise but I'm terrified of rejection",
+        "How do I communicate with money like it's a conscious being?",
+      ],
+      consciousness: [
+        "I know I'm meant for more but I feel stuck in old patterns",
+        "How do I break generational trauma around money and success?",
+        "I'm ready to step into my power but I'm scared of being seen",
+        "How do I trust the universe when everything feels uncertain?",
+      ],
+      spiritual: [
+        "How do I align my spiritual beliefs with making money?",
+        "I feel guilty about wanting wealth - isn't that unspiritual?",
+        "How do I manifest money without being attached to outcomes?",
+        "What's the difference between ego desires and soul desires?",
+      ],
+    }
+    return prompts[mode as keyof typeof prompts] || prompts.eli
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-pink-900 text-white">
       <div className="container mx-auto px-4 py-6 max-w-6xl">
@@ -376,6 +406,29 @@ export default function ELIApp() {
               ))}
             </div>
 
+            {/* Suggested Prompts */}
+            <Card className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border-purple-500/20">
+              <CardContent className="p-4">
+                <h3 className="text-purple-200 font-medium mb-3 flex items-center gap-2">
+                  <Sparkles className="h-4 w-4" />
+                  Try asking {chatModes[chatMode as keyof typeof chatModes].name}:
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {getSuggestedPrompts(chatMode).map((prompt, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setMessage(prompt)}
+                      className="text-left justify-start h-auto p-3 border-purple-500/30 text-purple-200 hover:bg-purple-800/30 hover:text-white whitespace-normal"
+                    >
+                      "{prompt}"
+                    </Button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Main Chat Card */}
             <Card className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 border-purple-500/30">
               <CardHeader className="pb-3">
@@ -399,7 +452,7 @@ export default function ELIApp() {
                 {/* Chat Messages */}
                 <div className="space-y-3 min-h-[400px] max-h-[600px] overflow-y-auto p-4 rounded-lg bg-black/20">
                   {chatHistory.length === 0 ? (
-                    <div className="text-center text-purple-300 py-8">
+                    <div className="text-center text-purple-200 py-8">
                       <Bot className="h-12 w-12 mx-auto mb-4 opacity-50" />
                       <p className="text-lg mb-4">Ready to level up your life? Let's dive in!</p>
                     </div>
@@ -420,7 +473,7 @@ export default function ELIApp() {
                             {msg.role === "user" ? "You" : "Nalani AI"}
                           </div>
                         </div>
-                        <div className="text-white leading-relaxed whitespace-pre-wrap">{msg.content}</div>
+                        <div className="text-gray-100 leading-relaxed whitespace-pre-wrap">{msg.content}</div>
                       </div>
                     ))
                   )}
